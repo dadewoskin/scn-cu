@@ -21,6 +21,17 @@
 #define EISD (ERANDOMINIT*0.02) //standard deviation = SD*mean for random perturbations of ephys initial conditions
 #define EPSD (ERANDOMPARAMS*0.02) //standard deviation = SD*mean for random perturbations of ephys parameters
 
+/////////////////////
+#define KO 0 
+//// KNOCKOUTS ////
+//0: No knockout
+//1: Cry1
+//2: Cry2
+//3: Per1
+//4: VIP
+//5: cAMP
+//6: Reverb
+
 #define MFINAL 1 //write final state of molecular clock
 #define EFINAL 1 //write final state of ephys
 

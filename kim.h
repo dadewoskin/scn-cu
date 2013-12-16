@@ -2,11 +2,11 @@
 #define KIM_H_
 
 #define Mdt 0.005 /* step size (in hours) */
-#define Mnvars 190 //number of variables
-#define Mnparams 83 //number of parameters
+#define Mnvars 188 //number of variables
+#define Mnparams 85 //number of parameters
 
 #define Mrecord 100 // record data to file every record time steps
-#define Mnstep 40000
+#define Mnstep 86400
 //#define Mrecsteps 1 // number of result steps to record
 #define Mrecsteps ((int)(Mnstep/Mrecord)+1) // number of result steps to record
 
@@ -20,8 +20,7 @@ struct Mparameters{
 */
 
 struct Mresult{
-	double pom[ncells*Mrecsteps], ptm[ncells*Mrecsteps], rom[ncells*Mrecsteps], rtm[ncells*Mrecsteps], bmm[ncells*Mrecsteps], rvm[ncells*Mrecsteps], npm[ncells*Mrecsteps], pot[ncells*Mrecsteps], ptt[ncells*Mrecsteps], rot[ncells*Mrecsteps], rtt[ncells*Mrecsteps], bmt[ncells*Mrecsteps], clt[ncells*Mrecsteps], clct[ncells*Mrecsteps], clnt[ncells*Mrecsteps], revt[ncells*Mrecsteps], cre[ncells*Mrecsteps], vip[ncells*Mrecsteps], G[ncells*Mrecsteps], BC[ncells*Mrecsteps];
-//	double pom[ncells*(Mrecsteps+1)], ptm[ncells*(Mrecsteps+1)], rom[ncells*(Mrecsteps+1)], rtm[ncells*(Mrecsteps+1)], bmm[ncells*(Mrecsteps+1)], rvm[ncells*(Mrecsteps+1)], npm[ncells*(Mrecsteps+1)], pot[ncells*(Mrecsteps+1)], ptt[ncells*(Mrecsteps+1)], rot[ncells*(Mrecsteps+1)], rtt[ncells*(Mrecsteps+1)], bmt[ncells*(Mrecsteps+1)], clt[ncells*(Mrecsteps+1)], clct[ncells*(Mrecsteps+1)], clnt[ncells*(Mrecsteps+1)], cre[ncells*(Mrecsteps+1)], vip[ncells*(Mrecsteps+1)];
+	double pom[ncells*Mrecsteps], ptm[ncells*Mrecsteps], rom[ncells*Mrecsteps], rtm[ncells*Mrecsteps], bmm[ncells*Mrecsteps], rvm[ncells*Mrecsteps], npm[ncells*Mrecsteps], pot[ncells*Mrecsteps], ptt[ncells*Mrecsteps], rot[ncells*Mrecsteps], rtt[ncells*Mrecsteps], bmt[ncells*Mrecsteps], clt[ncells*Mrecsteps], clct[ncells*Mrecsteps], clnt[ncells*Mrecsteps], revt[ncells*Mrecsteps], cre[ncells*Mrecsteps], vip[ncells*Mrecsteps], G[ncells*Mrecsteps], BC[ncells*Mrecsteps], xtra[ncells*Mrecsteps];
 };
 
 #endif

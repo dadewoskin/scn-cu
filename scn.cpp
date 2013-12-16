@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
 	int EREADCONN = 0;
 	int EREADINIT = 0;
 	int EREADPARAM = 0;
+	double idx = 1000000;
 
 	sprintf(out_filename,"%s_%s",date, argv[1]);
 
@@ -215,7 +216,8 @@ int main(int argc, char *argv[])
 	//Allocate Mresult place holder on device
 	CUDA_SAFE_CALL (cudaMalloc((void **) &Mr, sizeof(Mresult)));
 
-	//Allocate and initialize state variables on device
+	////////////////////////////////////////////////////////////////////////////////
+	//Read in initial values to host
 	if(MREADINIT==1) { //read M initial conditions for 1 cell from filename passed to main
 		if(Minitialize_repeat(h_Mx, Minit_filename))
 			exit(EXIT_FAILURE);
@@ -225,13 +227,11 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 	else {	//use default M initial conditions
-		sprintf(Minit_filename, "./Minit/Mf20131023_Hastings_per_grid.txt");
-//		if(Minitialize_repeat(h_Mx, "./Minit/Minit_default.txt"))
-		if(Minitialize(h_Mx, Minit_filename))
+//		sprintf(Minit_filename, "./Minit/Mf20131204_Hastings_per_grid.txt");
+		sprintf(Minit_filename, "./Minit/Mf20131209_1celldefault.txt");
+		if(Minitialize_repeat(h_Mx, Minit_filename))
 			exit(EXIT_FAILURE);
 	}
-	CUDA_SAFE_CALL (cudaMalloc((void **) &Mx, sizeof(Mstate)));
-	CUDA_SAFE_CALL (cudaMemcpy(Mx, h_Mx, sizeof(Mstate), cudaMemcpyHostToDevice));
 
 	if(EREADINIT==1) { //read E initial conditions for 1 cell from filename passed to main
 		if(Einitialize_repeat(h_Ex, Einit_filename))
@@ -243,17 +243,12 @@ int main(int argc, char *argv[])
 	}
 	else {	//use default initial conditions
 		sprintf(Einit_filename, "./Einit/Ef20131023_Hastings_per_grid.txt");
-		if(Einitialize_repeat(h_Ex, Einit_filename))
+		if(Einitialize(h_Ex, Einit_filename))
 			exit(EXIT_FAILURE);
 	}
-	CUDA_SAFE_CALL (cudaMalloc((void **) &Exi, sizeof(Estate)));
-	CUDA_SAFE_CALL (cudaMemcpy(Exi, h_Ex, sizeof(Estate), cudaMemcpyHostToDevice));
-	CUDA_SAFE_CALL (cudaMalloc((void **) &Exf, sizeof(Estate)));
-	CUDA_SAFE_CALL (cudaMemcpy(Exf, h_Ex, sizeof(Estate), cudaMemcpyHostToDevice));
-//	for(int i=0;i<ncells;i++)
-//		printf("cell %d\t GR = %lf,\t CRE = %lf,\t V = %lf,\t out = %lf\n",i,h_Mx->GR[i],h_Mx->CRE[i],h_Ex->V[i],h_Ex->out[i]);
 	
-	//Allocate and initialize parameters on device
+	////////////////////////////////////////////////////////////////////////////////
+	//Read in parameters to host
 	if(MREADPARAM==1) { //read M parameters for 1 cell from filename passed to main
 		if(Mpinitialize_repeat(h_Mp, Mparam_filename))
 			exit(EXIT_FAILURE);
@@ -263,15 +258,10 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 	else {	//use default M parameters
-		sprintf(Mparam_filename, "./Mparameters/20131023_Hastings_per_grid.txt");
-//		if(Mpinitialize_repeat(h_Mp, "./Mparameters/Mparams_default.txt"))
-		if(Mpinitialize(h_Mp, Mparam_filename))
+		sprintf(Mparam_filename, "./Mparameters/20131205_1celldefault.txt");
+		if(Mpinitialize_repeat(h_Mp, Mparam_filename))
 			exit(EXIT_FAILURE);
 	}
-
-	CUDA_SAFE_CALL (cudaMalloc((void **) &Mp, sizeof(Mparameters)));
-	CUDA_SAFE_CALL (cudaMemcpy(Mp, h_Mp, sizeof(Mparameters), cudaMemcpyHostToDevice));
-	CHECK_LAUNCH_ERROR();
 
 	if(EREADPARAM==1) { //read E parameters for 1 cell from filename passed to main
 		if(Epinitialize_repeat(h_Ep, Eparam_filename))
@@ -283,29 +273,38 @@ int main(int argc, char *argv[])
 	}
 	else {	//use default E parameters
                 sprintf(Eparam_filename, "./Eparameters/20131023_Hastings_per_grid.txt");
-//              if(Epinitialize_repeat(h_Ep, "./Eparameters/Eparams_default.txt"))
 		if(Epinitialize(h_Ep, Eparam_filename))
 			exit(EXIT_FAILURE);
 	}
+	////////////////////////////////////////////////////////////////////////////////
+
+	Mcheck_init(h_Mx, h_Mp);
+	//Pass initial conditions and parameters to device
+	CUDA_SAFE_CALL (cudaMalloc((void **) &Mx, sizeof(Mstate)));
+	CUDA_SAFE_CALL (cudaMemcpy(Mx, h_Mx, sizeof(Mstate), cudaMemcpyHostToDevice));
+	CUDA_SAFE_CALL (cudaMalloc((void **) &Exi, sizeof(Estate)));
+	CUDA_SAFE_CALL (cudaMemcpy(Exi, h_Ex, sizeof(Estate), cudaMemcpyHostToDevice));
+	CUDA_SAFE_CALL (cudaMalloc((void **) &Exf, sizeof(Estate)));
+	CUDA_SAFE_CALL (cudaMemcpy(Exf, h_Ex, sizeof(Estate), cudaMemcpyHostToDevice));
+	CUDA_SAFE_CALL (cudaMalloc((void **) &Mp, sizeof(Mparameters)));
+	CUDA_SAFE_CALL (cudaMemcpy(Mp, h_Mp, sizeof(Mparameters), cudaMemcpyHostToDevice));
 	CUDA_SAFE_CALL (cudaMalloc((void **) &Ep, sizeof(Eparameters)));
 	CUDA_SAFE_CALL (cudaMemcpy(Ep, h_Ep, sizeof(Eparameters), cudaMemcpyHostToDevice));
+	CHECK_LAUNCH_ERROR();
 
-
-
+	////////////////////////////////////////////////////////////////////////////////
 
 	//Allocate connectivity matrix on device
 	if (MAKECONNECT == 0) {
 		if (MREADCONN == 0) // use default Mconnectivity matrix
 		{
 			sprintf(Mconnect_filename, "./connectivity/connectivity_hastingsperVIP_cnct100_1024.txt");
-	//		sprintf(Mconnect_filename, "./connectivity/32x32-percents/connectivity_20.txt");
 			printf("Using default VIP connectivity matrix: %s\n", Mconnect_filename);
 		}
 		if(read_connect(Mconnect_filename, h_MC))
 				exit(EXIT_FAILURE);
 		if (EREADCONN == 0) // use default Econnectivity matrix
 		{
-	//		sprintf(Econnect_filename, "./connectivity/connectivity_decoverdist_10.txt");
 			sprintf(Econnect_filename, "./connectivity/32x32-percents/connectivity_10.txt");
 			printf("Using default ephys connectivity matrix: %s\n", Econnect_filename);
 		}
@@ -327,9 +326,6 @@ int main(int argc, char *argv[])
 	CUDA_SAFE_CALL (cudaMemcpy(MC, h_MC, ncells*ncells*sizeof(double), cudaMemcpyHostToDevice));
 	CUDA_SAFE_CALL (cudaMalloc((void **) &EC, ncells*ncells*sizeof(double)));
 	CUDA_SAFE_CALL (cudaMemcpy(EC, h_EC, ncells*ncells*sizeof(double), cudaMemcpyHostToDevice));
-
-
-
 
 	//Allocate and initialize upstream input vector
 	for (int i=0; i<ncells; i++){
@@ -445,6 +441,9 @@ int main(int argc, char *argv[])
 	sprintf(path,"./output/Ef%s",out_filename);
 	FILE *Efoutfi = open_file(path, "w");
 
+	sprintf(path,"./output/Egaba%s",out_filename);
+	FILE *EXoutfi = open_file(path, "w");
+
 	FILE *performance;
 	sprintf(path,"performance.txt");
 	if ((performance = fopen(path, "a+t")) == NULL) {
@@ -471,7 +470,7 @@ int main(int argc, char *argv[])
 	double tmp_vec[Mnvars];
 
 	//Run Ephys for a while to find correct initial conditions
-	if (GETEICS) {
+	if (GETEICS && EPHYS) {
 		for (int Et_step=0; Et_step < 1000001; Et_step++) {
 			curr_t=Et_step*Edt/3600000.0;
 			if(ECPL)
@@ -481,9 +480,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	record_result_wrapper(0, Mr, Mx); // record molec clock initial conditions
+	record_result_wrapper(0, Mr, Mx, Mp); // record molec clock initial conditions
 	for (int Mt_step=0; Mt_step < Mnstep; Mt_step++) {
-//		printf("Mt_step = %d\n",Mt_step);
 		if (EPHYS==1) {
 			iE=0;
 
@@ -504,12 +502,16 @@ int main(int argc, char *argv[])
 //					write_Eresult(h_Eresult, EOoutfi, 2, Mt_step, 0);
 				}
 			}
+//				CUDA_SAFE_CALL (cudaMemcpy(h_Ep->Egaba, Ep->Egaba, ncells*sizeof(double), cudaMemcpyDeviceToHost));
+//				write_array(h_Ep->Egaba, ncells, EXoutfi);
 		}
 		if (EPHYS==0){
 			CUDA_SAFE_CALL (cudaMemcpy(Exf->cac, scn_cac[mod(Mt_step,ca_len)], ncells*sizeof(double), cudaMemcpyHostToDevice));
 		}
+	
 		curr_t=Mt_step*Mdt;
-	        ret = cublasDgemv(handle, CUBLAS_OP_N, ncells, ncells, &alpha, MC, ncells, Exf->cac, 1, &beta, Minput, 1);
+		if(MCPL)
+		        ret = cublasDgemv(handle, CUBLAS_OP_N, ncells, ncells, &alpha, MC, ncells, Exf->cac, 1, &beta, Minput, 1);
 
 		rhs_wrapper(curr_t, Mx, k1, Mp, Exf, Minput, Mupstream, LIGHT);
 		lincomb_wrapper(.5*Mdt,kb,Mx,k1);
@@ -518,12 +520,12 @@ int main(int argc, char *argv[])
 		rhs_wrapper(curr_t+.5*Mdt, kb, k3, Mp, Exf, Minput, Mupstream, LIGHT);
 		lincomb_wrapper(Mdt,kb,Mx,k3);
 		rhs_wrapper(curr_t+Mdt, kb, k4, Mp, Exf, Minput, Mupstream, LIGHT);
-		rk4_wrapper(Mx, k1, k2, k3, k4, curr_t);
+		rk4_wrapper(Mx, k1, k2, k3, k4, curr_t, idx);
 
 		if ((Mt_step+1)%Mrecord==0) {
 			printf("recording %d\n", Mt_step+1);
 			iM+=ncells;
-			record_result_wrapper(iM, Mr, Mx);
+			record_result_wrapper(iM, Mr, Mx, Mp);
 			CUDA_SAFE_CALL (cudaMemcpy(h_Mr, Mr, sizeof(Mresult), cudaMemcpyDeviceToHost));
 			if (isnan(h_Mr->ptt[iM])) {
 				break;
@@ -563,6 +565,7 @@ int main(int argc, char *argv[])
 	write_Mresult(h_Mr->vip, Moutfi); // 18
 	write_Mresult(h_Mr->G, Moutfi); // 19
 	write_Mresult(h_Mr->BC, Moutfi); // 20
+	write_Mresult(h_Mr->xtra, Moutfi); // 21
 
 	fprintf(performance,"%s\t%d\t%d\t%d\t",out_filename,NTHREADS, NBLOCKS, ncells);
 	fprintf(performance,"%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t", telapsed/(60*1000), telapsed/ncells*(CLKSPD*1e6), MISD, MPSD, EISD, EPSD);
@@ -582,6 +585,7 @@ int main(int argc, char *argv[])
 //	fclose(ECoutfi);
 	fclose(ECsummaryoutfi);
 //	fclose(EOoutfi);
+	fclose(EXoutfi);
 	fclose(Efoutfi);
 	fclose(Moutfi);
 	fclose(Mfoutfi);
@@ -595,6 +599,8 @@ int main(int argc, char *argv[])
 		remove(path);
 //		sprintf(path,"./output/EO%s",out_filename);
 //		remove(path);
+		sprintf(path,"./output/Egaba%s",out_filename);
+		remove(path);
 	}
 	if (!MFINAL) {	// remove mfinal file if not recorded
 		sprintf(path,"./output/Mf%s",out_filename);

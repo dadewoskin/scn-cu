@@ -38,6 +38,15 @@ int read_cac(double *input, int len)
 	return 0;
 }
 
+int write_array(double *output, int len, FILE *outfile)
+{
+	for (int i=0; i<len; i++) {
+		fprintf(outfile, "%lf\t", output[i]);
+	}
+	fprintf(outfile, "\n");
+	return 0;
+}
+
 int read_connect(char *filename, double *C)
 {
 	FILE *myfile;
@@ -77,7 +86,6 @@ int read_connect(char *filename, double *C)
 	}
 	
 	//Print out matrix
-//	print_matrix(M, ncells, ncells);
 /*	for (j=0; j<ncells*ncells;j++){
 		printf("%lf\t", C[j]);
 	}

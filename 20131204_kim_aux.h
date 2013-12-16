@@ -11,7 +11,6 @@ void Mresult2vec(Mresult *r, int n, double *vec);
 
 int Minitialize_repeat(Mstate *M, const char *name);
 int Minitialize(Mstate *M, const char *name);
-int Mcheck_init(Mstate *M, Mparameters *p);
 int Mpinitialize_repeat(Mparameters *p, const char *name);
 int Mpinitialize(Mparameters *p, const char *name);
 

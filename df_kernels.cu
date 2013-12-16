@@ -22,6 +22,16 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, doub
 
 	for (j=tid; j<ncells; j+=stride) {
 		Isyn = 0.0;
+
+	// Use to vary Egaba in time
+/*		if( PERCENTEXCITE > 0 )
+		{
+			double tmp = ((double)j)/ncells;
+			if( tmp*100.0 > (100.0-PERCENTEXCITE) )
+				p->Egaba[j] = -56 + 24*sin(PI/12.0*t);
+		}
+*/
+
 //		Isyn = -gsyn*input[j];///(double)upstream[j];
 //		Isyn = -gsyn*input[j]*(xi->V[j]-p->Egaba[j]);
 
@@ -31,10 +41,11 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, doub
 //		gkca = 200*R;
 //		gkleak = max(0.01+.02*R,0.0);
 //		R = .5*(sin(PI/12.0*(t-10.3529))+1.0);
-
 //		R = p->clk[j]*M->G[j];
-		R = p->clk[j]*(max(M->BC[j]-4.0,0.0))/5.5;
 
+//		.1 < R < .45
+		R = p->clk[j]*(max(M->BC[j]-4.0,0.0))/5.5;
+//		R = p->clk[j]*(.17*sin(PI/12.0*t)+.27);
 		gkca = 200*R+.01;
 		gkleak = .2*R+0.01;
 

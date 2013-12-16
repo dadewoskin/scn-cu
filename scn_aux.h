@@ -2,6 +2,7 @@
 #define SCN_AUX_H_
 
 // C++ auxilliary functions for scn model
+int write_array(double *output, int len, FILE *outfile);
 int read_cac(double *input, int len);
 int read_connect(char *filename, double *C);
 int make_rconnect(double *C, double pctconnect);

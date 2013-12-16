@@ -6,8 +6,6 @@
 #define Enparams 14 //number of parameters
 #define Erecord 20 // record data to file every record time steps
 //#define Erecord 1 // record data to file every record time steps
-//#define Enstep (1500/Edt+1)
-//#define Enstep 15001
 #define Enstep 10001
 #define ENRES 3 // number of variables to record in results vector
 
@@ -36,7 +34,7 @@
 #define THRESH 0
 #define PSC 1.0
 #define gsyn 1.0
-#define PERCENTEXCITE 40.0
+#define PERCENTEXCITE 0
 
 /*struct Estate{
 	double V[ncells], m[ncells], h[ncells], n[ncells], rl[ncells], rnl[ncells], fnl[ncells], s[ncells], cas[ncells], cac[ncells], out[ncells];

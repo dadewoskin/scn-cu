@@ -250,7 +250,7 @@ int Epinitialize(Eparameters *p, const char *name)
 				input[i] = 0;
 			else if( ERANDOMPARAMS & ( (i==10) | (i==12) ) ) // perturb Eca and clk
 				input[i] = randn(input[i], input[i]*EPSD);
-			else if( (i==13) ) //&  PERCENTEXCITE > 0)
+			else if( (i==13) & PERCENTEXCITE > 0)
 			{
 //				init[i] = -80.0 + 24.0*(tanh(.05*((double)n-((double)ncells*(1.0-PERCENTEXCITE/100.0)))) + 1.0);
 //				init[i] = -60;

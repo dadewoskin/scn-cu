@@ -69,158 +69,158 @@ void vec2Mstate(double *vec, Mstate *M, int n)
 	M->gto[n] = vec[35];
 	M->x00001[n] = vec[36];
 	M->x00011[n] = vec[37];
-	M->x00100[n] = vec[38];
-	M->x00110[n] = vec[39];
-	M->x00200[n] = vec[40];
-	M->x00210[n] = vec[41];
-	M->x01000[n] = vec[42];
-	M->x01010[n] = vec[43];
-	M->x01011[n] = vec[44];
-	M->x02000[n] = vec[45];
-	M->x02010[n] = vec[46];
-	M->x02011[n] = vec[47];
-	M->x10000[n] = vec[48];
-	M->x10100[n] = vec[49];
-	M->x20000[n] = vec[50];
-	M->x20010[n] = vec[51];
-	M->x20011[n] = vec[52];
-	M->x20100[n] = vec[53];
-	M->x20110[n] = vec[54];
-	M->x20111[n] = vec[55];
-	M->x21000[n] = vec[56];
-	M->x21010[n] = vec[57];
-	M->x21011[n] = vec[58];
-	M->x21100[n] = vec[59];
-	M->x21110[n] = vec[60];
-	M->x21111[n] = vec[61];
-	M->x22000[n] = vec[62];
-	M->x22010[n] = vec[63];
-	M->x22011[n] = vec[64];
-	M->x22100[n] = vec[65];
-	M->x22110[n] = vec[66];
-	M->x22111[n] = vec[67];
-	M->x30000[n] = vec[68];
-	M->x30100[n] = vec[69];
-	M->x30200[n] = vec[70];
-	M->x30300[n] = vec[71];
-	M->x40000[n] = vec[72];
-	M->x40010[n] = vec[73];
-	M->x40011[n] = vec[74];
-	M->x40100[n] = vec[75];
-	M->x40110[n] = vec[76];
-	M->x40111[n] = vec[77];
-	M->x40200[n] = vec[78];
-	M->x40210[n] = vec[79];
-	M->x40211[n] = vec[80];
-	M->x40300[n] = vec[81];
-	M->x40310[n] = vec[82];
-	M->x40311[n] = vec[83];
-	M->x41000[n] = vec[84];
-	M->x41010[n] = vec[85];
-	M->x41011[n] = vec[86];
-	M->x41100[n] = vec[87];
-	M->x41110[n] = vec[88];
-	M->x41111[n] = vec[89];
-	M->x41200[n] = vec[90];
-	M->x41210[n] = vec[91];
-	M->x41211[n] = vec[92];
-	M->x41300[n] = vec[93];
-	M->x41310[n] = vec[94];
-	M->x41311[n] = vec[95];
-	M->x42000[n] = vec[96];
-	M->x42010[n] = vec[97];
-	M->x42011[n] = vec[98];
-	M->x42100[n] = vec[99];
-	M->x42110[n] = vec[100];
-	M->x42111[n] = vec[101];
-	M->x42200[n] = vec[102];
-	M->x42210[n] = vec[103];
-	M->x42211[n] = vec[104];
-	M->x42300[n] = vec[105];
-	M->x42310[n] = vec[106];
-	M->x42311[n] = vec[107];
-	M->x50000[n] = vec[108];
-	M->x50010[n] = vec[109];
-	M->x50011[n] = vec[110];
-	M->x50100[n] = vec[111];
-	M->x50110[n] = vec[112];
-	M->x50111[n] = vec[113];
-	M->x50200[n] = vec[114];
-	M->x50210[n] = vec[115];
-	M->x50211[n] = vec[116];
-	M->x50300[n] = vec[117];
-	M->x50310[n] = vec[118];
-	M->x50311[n] = vec[119];
-	M->x51000[n] = vec[120];
-	M->x51010[n] = vec[121];
-	M->x51011[n] = vec[122];
-	M->x51100[n] = vec[123];
-	M->x51110[n] = vec[124];
-	M->x51111[n] = vec[125];
-	M->x51200[n] = vec[126];
-	M->x51210[n] = vec[127];
-	M->x51211[n] = vec[128];
-	M->x51300[n] = vec[129];
-	M->x51310[n] = vec[130];
-	M->x51311[n] = vec[131];
-	M->x52000[n] = vec[132];
-	M->x52010[n] = vec[133];
-	M->x52011[n] = vec[134];
-	M->x52100[n] = vec[135];
-	M->x52110[n] = vec[136];
-	M->x52111[n] = vec[137];
-	M->x52200[n] = vec[138];
-	M->x52210[n] = vec[139];
-	M->x52211[n] = vec[140];
-	M->x52300[n] = vec[141];
-	M->x52310[n] = vec[142];
-	M->x52311[n] = vec[143];
-	M->x60000[n] = vec[144];
-	M->x60010[n] = vec[145];
-	M->x60011[n] = vec[146];
-	M->x60100[n] = vec[147];
-	M->x60110[n] = vec[148];
-	M->x60111[n] = vec[149];
-	M->x60200[n] = vec[150];
-	M->x60210[n] = vec[151];
-	M->x60211[n] = vec[152];
-	M->x60300[n] = vec[153];
-	M->x60310[n] = vec[154];
-	M->x60311[n] = vec[155];
-	M->x61000[n] = vec[156];
-	M->x61010[n] = vec[157];
-	M->x61011[n] = vec[158];
-	M->x61100[n] = vec[159];
-	M->x61110[n] = vec[160];
-	M->x61111[n] = vec[161];
-	M->x61200[n] = vec[162];
-	M->x61210[n] = vec[163];
-	M->x61211[n] = vec[164];
-	M->x61300[n] = vec[165];
-	M->x61310[n] = vec[166];
-	M->x61311[n] = vec[167];
-	M->x62000[n] = vec[168];
-	M->x62010[n] = vec[169];
-	M->x62011[n] = vec[170];
-	M->x62100[n] = vec[171];
-	M->x62110[n] = vec[172];
-	M->x62111[n] = vec[173];
-	M->x62200[n] = vec[174];
-	M->x62210[n] = vec[175];
-	M->x62211[n] = vec[176];
-	M->x62300[n] = vec[177];
-	M->x62310[n] = vec[178];
-	M->x62311[n] = vec[179];
-	M->ltn[n] = vec[180];
-	M->vip[n] = vec[181];
-	M->V10[n] = vec[182];
-	M->V11[n] = vec[183];
-	M->V12[n] = vec[184];
-	M->V01[n] = vec[185];
-	M->V02[n] = vec[186];
-	M->cAMP[n] = vec[187];
-	M->CREB[n] = vec[188];
-	M->CRE[n] = vec[189];
+//	M->x00100[n] = vec[38];
+	M->x00110[n] = vec[38];
+//	M->x00200[n] = vec[40];
+	M->x00210[n] = vec[39];
+	M->x01000[n] = vec[40];
+	M->x01010[n] = vec[41];
+	M->x01011[n] = vec[42];
+	M->x02000[n] = vec[43];
+	M->x02010[n] = vec[44];
+	M->x02011[n] = vec[45];
+	M->x10000[n] = vec[46];
+	M->x10100[n] = vec[47];
+	M->x20000[n] = vec[48];
+	M->x20010[n] = vec[49];
+	M->x20011[n] = vec[50];
+	M->x20100[n] = vec[51];
+	M->x20110[n] = vec[52];
+	M->x20111[n] = vec[53];
+	M->x21000[n] = vec[54];
+	M->x21010[n] = vec[55];
+	M->x21011[n] = vec[56];
+	M->x21100[n] = vec[57];
+	M->x21110[n] = vec[58];
+	M->x21111[n] = vec[59];
+	M->x22000[n] = vec[60];
+	M->x22010[n] = vec[61];
+	M->x22011[n] = vec[62];
+	M->x22100[n] = vec[63];
+	M->x22110[n] = vec[64];
+	M->x22111[n] = vec[65];
+	M->x30000[n] = vec[66];
+	M->x30100[n] = vec[67];
+	M->x30200[n] = vec[68];
+	M->x30300[n] = vec[69];
+	M->x40000[n] = vec[70];
+	M->x40010[n] = vec[71];
+	M->x40011[n] = vec[72];
+	M->x40100[n] = vec[73];
+	M->x40110[n] = vec[74];
+	M->x40111[n] = vec[75];
+	M->x40200[n] = vec[76];
+	M->x40210[n] = vec[77];
+	M->x40211[n] = vec[78];
+	M->x40300[n] = vec[79];
+	M->x40310[n] = vec[80];
+	M->x40311[n] = vec[81];
+	M->x41000[n] = vec[82];
+	M->x41010[n] = vec[83];
+	M->x41011[n] = vec[84];
+	M->x41100[n] = vec[85];
+	M->x41110[n] = vec[86];
+	M->x41111[n] = vec[87];
+	M->x41200[n] = vec[88];
+	M->x41210[n] = vec[89];
+	M->x41211[n] = vec[90];
+	M->x41300[n] = vec[91];
+	M->x41310[n] = vec[92];
+	M->x41311[n] = vec[93];
+	M->x42000[n] = vec[94];
+	M->x42010[n] = vec[95];
+	M->x42011[n] = vec[96];
+	M->x42100[n] = vec[97];
+	M->x42110[n] = vec[98];
+	M->x42111[n] = vec[99];
+	M->x42200[n] = vec[100];
+	M->x42210[n] = vec[101];
+	M->x42211[n] = vec[102];
+	M->x42300[n] = vec[103];
+	M->x42310[n] = vec[104];
+	M->x42311[n] = vec[105];
+	M->x50000[n] = vec[106];
+	M->x50010[n] = vec[107];
+	M->x50011[n] = vec[108];
+	M->x50100[n] = vec[109];
+	M->x50110[n] = vec[110];
+	M->x50111[n] = vec[111];
+	M->x50200[n] = vec[112];
+	M->x50210[n] = vec[113];
+	M->x50211[n] = vec[114];
+	M->x50300[n] = vec[115];
+	M->x50310[n] = vec[116];
+	M->x50311[n] = vec[117];
+	M->x51000[n] = vec[118];
+	M->x51010[n] = vec[119];
+	M->x51011[n] = vec[120];
+	M->x51100[n] = vec[121];
+	M->x51110[n] = vec[122];
+	M->x51111[n] = vec[123];
+	M->x51200[n] = vec[124];
+	M->x51210[n] = vec[125];
+	M->x51211[n] = vec[126];
+	M->x51300[n] = vec[127];
+	M->x51310[n] = vec[128];
+	M->x51311[n] = vec[129];
+	M->x52000[n] = vec[130];
+	M->x52010[n] = vec[131];
+	M->x52011[n] = vec[132];
+	M->x52100[n] = vec[133];
+	M->x52110[n] = vec[134];
+	M->x52111[n] = vec[135];
+	M->x52200[n] = vec[136];
+	M->x52210[n] = vec[137];
+	M->x52211[n] = vec[138];
+	M->x52300[n] = vec[139];
+	M->x52310[n] = vec[140];
+	M->x52311[n] = vec[141];
+	M->x60000[n] = vec[142];
+	M->x60010[n] = vec[143];
+	M->x60011[n] = vec[144];
+	M->x60100[n] = vec[145];
+	M->x60110[n] = vec[146];
+	M->x60111[n] = vec[147];
+	M->x60200[n] = vec[148];
+	M->x60210[n] = vec[149];
+	M->x60211[n] = vec[150];
+	M->x60300[n] = vec[151];
+	M->x60310[n] = vec[152];
+	M->x60311[n] = vec[153];
+	M->x61000[n] = vec[154];
+	M->x61010[n] = vec[155];
+	M->x61011[n] = vec[156];
+	M->x61100[n] = vec[157];
+	M->x61110[n] = vec[158];
+	M->x61111[n] = vec[159];
+	M->x61200[n] = vec[160];
+	M->x61210[n] = vec[161];
+	M->x61211[n] = vec[162];
+	M->x61300[n] = vec[163];
+	M->x61310[n] = vec[164];
+	M->x61311[n] = vec[165];
+	M->x62000[n] = vec[166];
+	M->x62010[n] = vec[167];
+	M->x62011[n] = vec[168];
+	M->x62100[n] = vec[169];
+	M->x62110[n] = vec[170];
+	M->x62111[n] = vec[171];
+	M->x62200[n] = vec[172];
+	M->x62210[n] = vec[173];
+	M->x62211[n] = vec[174];
+	M->x62300[n] = vec[175];
+	M->x62310[n] = vec[176];
+	M->x62311[n] = vec[177];
+	M->ltn[n] = vec[178];
+	M->vip[n] = vec[179];
+	M->V10[n] = vec[180];
+	M->V11[n] = vec[181];
+	M->V12[n] = vec[182];
+	M->V01[n] = vec[183];
+	M->V02[n] = vec[184];
+	M->cAMP[n] = vec[185];
+	M->CREB[n] = vec[186];
+	M->CRE[n] = vec[187];
 }
 
 void Mstate2vec(Mstate *M, int n, double *vec)
@@ -263,158 +263,158 @@ void Mstate2vec(Mstate *M, int n, double *vec)
 	vec[35] = M->gto[n];
 	vec[36] = M->x00001[n];
 	vec[37] = M->x00011[n];
-	vec[38] = M->x00100[n];
-	vec[39] = M->x00110[n];
-	vec[40] = M->x00200[n];
-	vec[41] = M->x00210[n];
-	vec[42] = M->x01000[n];
-	vec[43] = M->x01010[n];
-	vec[44] = M->x01011[n];
-	vec[45] = M->x02000[n];
-	vec[46] = M->x02010[n];
-	vec[47] = M->x02011[n];
-	vec[48] = M->x10000[n];
-	vec[49] = M->x10100[n];
-	vec[50] = M->x20000[n];
-	vec[51] = M->x20010[n];
-	vec[52] = M->x20011[n];
-	vec[53] = M->x20100[n];
-	vec[54] = M->x20110[n];
-	vec[55] = M->x20111[n];
-	vec[56] = M->x21000[n];
-	vec[57] = M->x21010[n];
-	vec[58] = M->x21011[n];
-	vec[59] = M->x21100[n];
-	vec[60] = M->x21110[n];
-	vec[61] = M->x21111[n];
-	vec[62] = M->x22000[n];
-	vec[63] = M->x22010[n];
-	vec[64] = M->x22011[n];
-	vec[65] = M->x22100[n];
-	vec[66] = M->x22110[n];
-	vec[67] = M->x22111[n];
-	vec[68] = M->x30000[n];
-	vec[69] = M->x30100[n];
-	vec[70] = M->x30200[n];
-	vec[71] = M->x30300[n];
-	vec[72] = M->x40000[n];
-	vec[73] = M->x40010[n];
-	vec[74] = M->x40011[n];
-	vec[75] = M->x40100[n];
-	vec[76] = M->x40110[n];
-	vec[77] = M->x40111[n];
-	vec[78] = M->x40200[n];
-	vec[79] = M->x40210[n];
-	vec[80] = M->x40211[n];
-	vec[81] = M->x40300[n];
-	vec[82] = M->x40310[n];
-	vec[83] = M->x40311[n];
-	vec[84] = M->x41000[n];
-	vec[85] = M->x41010[n];
-	vec[86] = M->x41011[n];
-	vec[87] = M->x41100[n];
-	vec[88] = M->x41110[n];
-	vec[89] = M->x41111[n];
-	vec[90] = M->x41200[n];
-	vec[91] = M->x41210[n];
-	vec[92] = M->x41211[n];
-	vec[93] = M->x41300[n];
-	vec[94] = M->x41310[n];
-	vec[95] = M->x41311[n];
-	vec[96] = M->x42000[n];
-	vec[97] = M->x42010[n];
-	vec[98] = M->x42011[n];
-	vec[99] = M->x42100[n];
-	vec[100] = M->x42110[n];
-	vec[101] = M->x42111[n];
-	vec[102] = M->x42200[n];
-	vec[103] = M->x42210[n];
-	vec[104] = M->x42211[n];
-	vec[105] = M->x42300[n];
-	vec[106] = M->x42310[n];
-	vec[107] = M->x42311[n];
-	vec[108] = M->x50000[n];
-	vec[109] = M->x50010[n];
-	vec[110] = M->x50011[n];
-	vec[111] = M->x50100[n];
-	vec[112] = M->x50110[n];
-	vec[113] = M->x50111[n];
-	vec[114] = M->x50200[n];
-	vec[115] = M->x50210[n];
-	vec[116] = M->x50211[n];
-	vec[117] = M->x50300[n];
-	vec[118] = M->x50310[n];
-	vec[119] = M->x50311[n];
-	vec[120] = M->x51000[n];
-	vec[121] = M->x51010[n];
-	vec[122] = M->x51011[n];
-	vec[123] = M->x51100[n];
-	vec[124] = M->x51110[n];
-	vec[125] = M->x51111[n];
-	vec[126] = M->x51200[n];
-	vec[127] = M->x51210[n];
-	vec[128] = M->x51211[n];
-	vec[129] = M->x51300[n];
-	vec[130] = M->x51310[n];
-	vec[131] = M->x51311[n];
-	vec[132] = M->x52000[n];
-	vec[133] = M->x52010[n];
-	vec[134] = M->x52011[n];
-	vec[135] = M->x52100[n];
-	vec[136] = M->x52110[n];
-	vec[137] = M->x52111[n];
-	vec[138] = M->x52200[n];
-	vec[139] = M->x52210[n];
-	vec[140] = M->x52211[n];
-	vec[141] = M->x52300[n];
-	vec[142] = M->x52310[n];
-	vec[143] = M->x52311[n];
-	vec[144] = M->x60000[n];
-	vec[145] = M->x60010[n];
-	vec[146] = M->x60011[n];
-	vec[147] = M->x60100[n];
-	vec[148] = M->x60110[n];
-	vec[149] = M->x60111[n];
-	vec[150] = M->x60200[n];
-	vec[151] = M->x60210[n];
-	vec[152] = M->x60211[n];
-	vec[153] = M->x60300[n];
-	vec[154] = M->x60310[n];
-	vec[155] = M->x60311[n];
-	vec[156] = M->x61000[n];
-	vec[157] = M->x61010[n];
-	vec[158] = M->x61011[n];
-	vec[159] = M->x61100[n];
-	vec[160] = M->x61110[n];
-	vec[161] = M->x61111[n];
-	vec[162] = M->x61200[n];
-	vec[163] = M->x61210[n];
-	vec[164] = M->x61211[n];
-	vec[165] = M->x61300[n];
-	vec[166] = M->x61310[n];
-	vec[167] = M->x61311[n];
-	vec[168] = M->x62000[n];
-	vec[169] = M->x62010[n];
-	vec[170] = M->x62011[n];
-	vec[171] = M->x62100[n];
-	vec[172] = M->x62110[n];
-	vec[173] = M->x62111[n];
-	vec[174] = M->x62200[n];
-	vec[175] = M->x62210[n];
-	vec[176] = M->x62211[n];
-	vec[177] = M->x62300[n];
-	vec[178] = M->x62310[n];
-	vec[179] = M->x62311[n];
-	vec[180] = M->ltn[n];
-	vec[181] = M->vip[n];
-	vec[182] = M->V10[n];
-	vec[183] = M->V11[n];
-	vec[184] = M->V12[n];
-	vec[185] = M->V01[n];
-	vec[186] = M->V02[n];
-	vec[187] = M->cAMP[n];
-	vec[188] = M->CREB[n];
-	vec[189] = M->CRE[n];
+//	vec[38] = M->x00100[n];
+	vec[38] = M->x00110[n];
+//	vec[40] = M->x00200[n];
+	vec[39] = M->x00210[n];
+	vec[40] = M->x01000[n];
+	vec[41] = M->x01010[n];
+	vec[42] = M->x01011[n];
+	vec[43] = M->x02000[n];
+	vec[44] = M->x02010[n];
+	vec[45] = M->x02011[n];
+	vec[46] = M->x10000[n];
+	vec[47] = M->x10100[n];
+	vec[48] = M->x20000[n];
+	vec[49] = M->x20010[n];
+	vec[50] = M->x20011[n];
+	vec[51] = M->x20100[n];
+	vec[52] = M->x20110[n];
+	vec[53] = M->x20111[n];
+	vec[54] = M->x21000[n];
+	vec[55] = M->x21010[n];
+	vec[56] = M->x21011[n];
+	vec[57] = M->x21100[n];
+	vec[58] = M->x21110[n];
+	vec[59] = M->x21111[n];
+	vec[60] = M->x22000[n];
+	vec[61] = M->x22010[n];
+	vec[62] = M->x22011[n];
+	vec[63] = M->x22100[n];
+	vec[64] = M->x22110[n];
+	vec[65] = M->x22111[n];
+	vec[66] = M->x30000[n];
+	vec[67] = M->x30100[n];
+	vec[68] = M->x30200[n];
+	vec[69] = M->x30300[n];
+	vec[70] = M->x40000[n];
+	vec[71] = M->x40010[n];
+	vec[72] = M->x40011[n];
+	vec[73] = M->x40100[n];
+	vec[74] = M->x40110[n];
+	vec[75] = M->x40111[n];
+	vec[76] = M->x40200[n];
+	vec[77] = M->x40210[n];
+	vec[78] = M->x40211[n];
+	vec[79] = M->x40300[n];
+	vec[80] = M->x40310[n];
+	vec[81] = M->x40311[n];
+	vec[82] = M->x41000[n];
+	vec[83] = M->x41010[n];
+	vec[84] = M->x41011[n];
+	vec[85] = M->x41100[n];
+	vec[86] = M->x41110[n];
+	vec[87] = M->x41111[n];
+	vec[88] = M->x41200[n];
+	vec[89] = M->x41210[n];
+	vec[90] = M->x41211[n];
+	vec[91] = M->x41300[n];
+	vec[92] = M->x41310[n];
+	vec[93] = M->x41311[n];
+	vec[94] = M->x42000[n];
+	vec[95] = M->x42010[n];
+	vec[96] = M->x42011[n];
+	vec[97] = M->x42100[n];
+	vec[98] = M->x42110[n];
+	vec[99] = M->x42111[n];
+	vec[100] = M->x42200[n];
+	vec[101] = M->x42210[n];
+	vec[102] = M->x42211[n];
+	vec[103] = M->x42300[n];
+	vec[104] = M->x42310[n];
+	vec[105] = M->x42311[n];
+	vec[106] = M->x50000[n];
+	vec[107] = M->x50010[n];
+	vec[108] = M->x50011[n];
+	vec[109] = M->x50100[n];
+	vec[110] = M->x50110[n];
+	vec[111] = M->x50111[n];
+	vec[112] = M->x50200[n];
+	vec[113] = M->x50210[n];
+	vec[114] = M->x50211[n];
+	vec[115] = M->x50300[n];
+	vec[116] = M->x50310[n];
+	vec[117] = M->x50311[n];
+	vec[118] = M->x51000[n];
+	vec[119] = M->x51010[n];
+	vec[120] = M->x51011[n];
+	vec[121] = M->x51100[n];
+	vec[122] = M->x51110[n];
+	vec[123] = M->x51111[n];
+	vec[124] = M->x51200[n];
+	vec[125] = M->x51210[n];
+	vec[126] = M->x51211[n];
+	vec[127] = M->x51300[n];
+	vec[128] = M->x51310[n];
+	vec[129] = M->x51311[n];
+	vec[130] = M->x52000[n];
+	vec[131] = M->x52010[n];
+	vec[132] = M->x52011[n];
+	vec[133] = M->x52100[n];
+	vec[134] = M->x52110[n];
+	vec[135] = M->x52111[n];
+	vec[136] = M->x52200[n];
+	vec[137] = M->x52210[n];
+	vec[138] = M->x52211[n];
+	vec[139] = M->x52300[n];
+	vec[140] = M->x52310[n];
+	vec[141] = M->x52311[n];
+	vec[142] = M->x60000[n];
+	vec[143] = M->x60010[n];
+	vec[144] = M->x60011[n];
+	vec[145] = M->x60100[n];
+	vec[146] = M->x60110[n];
+	vec[147] = M->x60111[n];
+	vec[148] = M->x60200[n];
+	vec[149] = M->x60210[n];
+	vec[150] = M->x60211[n];
+	vec[151] = M->x60300[n];
+	vec[152] = M->x60310[n];
+	vec[153] = M->x60311[n];
+	vec[154] = M->x61000[n];
+	vec[155] = M->x61010[n];
+	vec[156] = M->x61011[n];
+	vec[157] = M->x61100[n];
+	vec[158] = M->x61110[n];
+	vec[159] = M->x61111[n];
+	vec[160] = M->x61200[n];
+	vec[161] = M->x61210[n];
+	vec[162] = M->x61211[n];
+	vec[163] = M->x61300[n];
+	vec[164] = M->x61310[n];
+	vec[165] = M->x61311[n];
+	vec[166] = M->x62000[n];
+	vec[167] = M->x62010[n];
+	vec[168] = M->x62011[n];
+	vec[169] = M->x62100[n];
+	vec[170] = M->x62110[n];
+	vec[171] = M->x62111[n];
+	vec[172] = M->x62200[n];
+	vec[173] = M->x62210[n];
+	vec[174] = M->x62211[n];
+	vec[175] = M->x62300[n];
+	vec[176] = M->x62310[n];
+	vec[177] = M->x62311[n];
+	vec[178] = M->ltn[n];
+	vec[179] = M->vip[n];
+	vec[180] = M->V10[n];
+	vec[181] = M->V11[n];
+	vec[182] = M->V12[n];
+	vec[183] = M->V01[n];
+	vec[184] = M->V02[n];
+	vec[185] = M->cAMP[n];
+	vec[186] = M->CREB[n];
+	vec[187] = M->CRE[n];
 }
 
 void vec2Mparams(double *vec, Mparameters *p, int n)
@@ -502,6 +502,8 @@ void vec2Mparams(double *vec, Mparameters *p, int n)
 	p->CtrPo[n] = vec[80];
 	p->CtrPt[n] = vec[81];
 	p->vpr[n] = vec[82];
+	p->Ct[n] = vec[83];
+	p->Gt[n] = vec[84];
 }
 
 void Mparams2vec(Mparameters *p, int n, double *vec)
@@ -589,6 +591,8 @@ void Mparams2vec(Mparameters *p, int n, double *vec)
 	vec[80] = p->CtrPo[n];
 	vec[81] = p->CtrPt[n];
 	vec[82] = p->vpr[n];
+	vec[83] = p->Ct[n];
+	vec[84] = p->Gt[n];
 }
 
 void vec2Mresult(double *vec, Mresult *r, int n)
@@ -613,6 +617,7 @@ void vec2Mresult(double *vec, Mresult *r, int n)
 	r->vip[n] = vec[17];
 	r->G[n] = vec[18];
 	r->BC[n] = vec[19];
+	r->xtra[n] = vec[20];
 }
 
 void Mresult2vec(Mresult *r, int n, double *vec)
@@ -637,6 +642,7 @@ void Mresult2vec(Mresult *r, int n, double *vec)
 	vec[17] = r->vip[n];
 	vec[18] = r->G[n];
 	vec[19] = r->BC[n];
+	vec[20] = r->xtra[n];
 }	
 
 int Minitialize_repeat(Mstate *M, const char *name)
@@ -649,7 +655,20 @@ int Minitialize_repeat(Mstate *M, const char *name)
 	infile = open_file(name, "r");
 	while ( (fscanf(infile, "%lf,", &buffer) != EOF) && (count < Mnvars) )
 	{
-		input[count] = buffer;
+		if((KO == 1) && (count == 18 || count == 19 || count == 40 || count == 41)) // CRY1KO
+			input[count] = 0.0;
+		else if((KO == 2) && (count == 14 || count == 15 || count == 43 || count == 44)) // CRY2KO
+			input[count] = 0.0;
+		else if((KO == 3) && (count == 10 || count == 11 || count == 46)) // PER1KO
+			input[count] = 0.0;
+		else if((KO == 4) && (count == 179 || count == 180 || count == 181 || count == 182)) // VIPKO
+			input[count] = 0.0;
+		else if((KO == 5) && (count == 185)) // cAMPKO
+			input[count] = 0.0;
+		else if((KO == 6) && (count == 16 || count == 17 || count ==  27 || count ==  28 || count ==  29 || count ==  30 || count ==  31 || count ==  32 || count ==  33 || count ==  34)) // REVERBKO
+			input[count] = 0.0;
+		else
+			input[count] = buffer;
 //		printf("%lf\t",input[count]);
 		count++;
 	}
@@ -666,7 +685,8 @@ int Minitialize_repeat(Mstate *M, const char *name)
 
 		for(int i=0; i < Mnvars; i++)
 		{
-			if(MRANDOMINIT) // perturb initial conditions
+//			if( MRANDOMINIT && (i == 48 || i == 68) ) // perturb initial conditions
+			if( MRANDOMINIT ) // perturb initial conditions
 			{
 				if(input[i] >= 0)
 					init[i] = fmax(randn(input[i], input[i]*MISD),0.0);
@@ -703,23 +723,26 @@ int Minitialize(Mstate *M, const char *name)
 		{
 			if(fscanf(infile, "%lf,", &buffer) != EOF)
 				count++;
-//			if(i == 16 || i == 17 || i ==  27 || i ==  28 || i ==  29 || i ==  30 || i ==  31 || i ==  32 || i ==  33 || i ==  34) // REVERBKO
-//			if(i == 18 || i == 19 || i == 42 || i == 43) // CRY1KO
-//			if(i == 14 || i == 15 || i == 45 || i == 46) // CRY2KO
-//			if(i == 181 || i == 182 || i == 183 || i == 184) // VIPKO
-//			if(i == 187) // cAMPKO
-			if(i == -1) // no KO
+
+			//Check for knockouts
+			if(
+				((KO == 1) && (i == 18 || i == 19 || i == 40 || i == 41)) || /* CRY1KO */
+				((KO == 2) && (i == 14 || i == 15 || i == 43 || i == 44)) ||  /* CRY2KO */
+				((KO == 3) && (i == 10 || i == 11 || i == 46)) || /* PER1KO */
+				((KO == 4) && (i == 179 || i == 180 || i == 181 || i == 182)) || /* VIPKO */
+				((KO == 5) && (i == 185)) || /* cAMPKO */
+				((KO == 6) && (i == 16 || i == 17 || i ==  27 || i ==  28 || i ==  29 || i ==  30 || i ==  31 || i ==  32 || i ==  33 || i ==  34)) ) /* REVERBKO */
 				input[i] = 0.0;
 			else
 				input[i] = buffer;
 		}
 
-/*		if(MRANDOMINIT) // perturb initial conditions
+		if(MRANDOMINIT) // perturb initial conditions
 		{
 			for(int i=0; i < Mnvars; i++)
 				input[i] = std::max(randn(input[i], input[i]*MISD), 0.0);
 		}
-*/
+
 		vec2Mstate(input,M,n);
 
 //		printf("%d\t%lf\n",n,M->G[n]);
@@ -738,6 +761,59 @@ int Minitialize(Mstate *M, const char *name)
 	return 0;
 }
 
+int Mcheck_init(Mstate *M, Mparameters *p)
+{
+	for(int n=0; n<ncells; n++)
+	{
+		if(M->GB[n]>1.0)
+			M->GB[n] = 1.0/M->GB[n];
+		if(M->GB[n]+M->GBR[n]>1.0)
+		{
+			printf("Warning: GB[%d] = %lf, GBR[%d] = %lf (sum > 1), ",n,M->GB[n],n,M->GBR[n]);
+			M->GBR[n] = 1.0-M->GB[n];
+			printf("setting GBR[%d] = 1-GB[%d] = %lf\n",n,n,M->GBR[n]);
+		}
+		if(M->GBb[n]>1.0)
+			M->GBb[n] = 1.0/M->GBb[n];
+		if(M->GBb[n]+M->GBRb[n]>1.0)
+		{
+			printf("Warning: GBb[%d] = %lf, GBRb[%d] = %lf (sum > 1), ",n,M->GBb[n],n,M->GBRb[n]);
+			M->GBRb[n] = 1.0-M->GBb[n];
+			printf("setting GBRb[%d] = 1-GBb[%d] = %lf\n",n,n,M->GBRb[n]);
+		}
+
+		/* Check Kinases */
+		double Kinases = M->x30300[n]+M->x40300[n]+M->x40310[n]+M->x40311[n]+M->x41300[n]+M->x41310[n]+M->x41311[n]+M->x42300[n]+M->x42310[n]+M->x42311[n]+M->x50300[n]+M->x50310[n]+M->x50311[n]+M->x51300[n]+M->x51310[n]+M->x51311[n]+M->x52300[n]+M->x52310[n]+M->x52311[n]+M->x60300[n]+M->x60310[n]+M->x60311[n]+M->x61300[n]+M->x61310[n]+M->x61311[n]+M->x62300[n]+M->x62310[n]+M->x62311[n];
+		//Unbound CK1 in cytoplasm (x00100)
+		double Ck1 = p->Ct[n] - (Kinases + M->x00110[n]+M->x10100[n]+M->x20100[n]+M->x20110[n]+M->x20111[n]+M->x21100[n]+M->x21110[n]+M->x21111[n]+M->x22100[n]+M->x22110[n]+M->x22111[n]+M->x30100[n]+M->x40100[n]+M->x40110[n]+M->x40111[n]+M->x41100[n]+M->x41110[n]+M->x41111[n]+M->x42100[n]+M->x42110[n]+M->x42111[n]+M->x50100[n]+M->x50110[n]+M->x50111[n]+M->x51100[n]+M->x51110[n]+M->x51111[n]+M->x52100[n]+M->x52110[n]+M->x52111[n]+M->x60100[n]+M->x60110[n]+M->x60111[n]+M->x61100[n]+M->x61110[n]+M->x61111[n]+M->x62100[n]+M->x62110[n]+M->x62111[n]);
+		//Unbound GSK3B in cytoplasm (x00200)
+		double Gsk = p->Gt[n] - (Kinases + M->cyrevg[n]+M->revng[n]+M->cyrevgp[n]+M->revngp[n]+M->x00210[n]+M->x30200[n]+M->x40200[n]+M->x40210[n]+M->x40211[n]+M->x41200[n]+M->x41210[n]+M->x41211[n]+M->x42200[n]+M->x42210[n]+M->x42211[n]+M->x50200[n]+M->x50210[n]+M->x50211[n]+M->x51200[n]+M->x51210[n]+M->x51211[n]+M->x52200[n]+M->x52210[n]+M->x52211[n]+M->x60200[n]+M->x60210[n]+M->x60211[n]+M->x61200[n]+M->x61210[n]+M->x61211[n]+M->x62200[n]+M->x62210[n]+M->x62211[n]);
+
+		if(Ck1<0.0)
+		{
+			printf("Ck1[%d] = %lf < 0, error in initial conditions\n",n,Ck1);
+			return 1;
+		}
+		if(Gsk<0.0)
+		{
+			printf("Gsk[%d] = %lf < 0, error in initial conditions\n",n,Gsk);
+			return 1;
+		}
+
+		//Check VPAC2R
+		double V00 = p->Vt[n]-M->V10[n]-M->V11[n]-M->V12[n]-M->V01[n]-M->V02[n]; // free receptor
+		if(V00<0.0)
+		{
+			printf("V00[%d] = %lf < 0, error in initial conditions\n",n,V00);
+//			M->V01[n] = M->V01[n]+V00-.0001;
+//			printf("V01[%d] changed from %lf to %lf\n",n,M->V01[n]-V00+.0001,M->V01[n]);
+		//	return 1;
+		}
+
+	}
+	return 0;
+}
+	
 int Mpinitialize_repeat(Mparameters *p, const char *name)
 {
 	FILE *infile;
@@ -762,13 +838,22 @@ int Mpinitialize_repeat(Mparameters *p, const char *name)
 
 	for(int n = 0; n < ncells; n++)
 	{
-
 		for(int i=0; i < Mnparams; i++)
 		{
-			if( MRANDOMPARAMS & ( (i==0) | (i==1) ) ) // perturb per1 and per2 transcription rate // perturb all parameters
+//			if( MRANDOMPARAMS & ( (i==0) | (i==1) | (i==80) | (i==81) | (i==58) | (i==59)) ) // perturb per1 and per2 transcription and degradation rates
+			if( MRANDOMPARAMS & ( (i==0) | (i==1) | (i==80) | (i==81) ) ) // perturb per1 and per2 transcription rates
 				init[i] = randn(input[i], input[i]*MPSD);
 			else
 				init[i] = input[i];
+			if(
+				((KO == 1) && (i == 2)) || /* CRY1KO */
+				((KO == 2) && (i == 3)) ||  /* CRY2KO */
+				((KO == 3) && (i == 0 || i == 80)) || /* PER1KO */
+				((KO == 4) && (i == 82)) || /* VIPKO */
+				((KO == 5) && (i == 76)) || /* cAMPKO */
+				((KO == 6) && (i == 5)) ) /* REVERBKO */
+				init[i] = 0.0;
+
 //			printf("%lf\t",init[0]);
 		}
 
@@ -797,16 +882,17 @@ int Mpinitialize(Mparameters *p, const char *name)
 		{
 			if(fscanf(infile, "%lf,", &buffer) != EOF)
 				count++;
-//			if(i == 2) // CRY1KO
-//			if(i == 3) // CRY2KO
-//			if(i == 82) // VIPKO
-//			if(i == 76) // cAMPKO
-//			if(i == 5) // REVERBKO
-			if(i == -1) // no KO
+			if(
+				((KO == 1) && (i == 2)) || /* CRY1KO */
+				((KO == 2) && (i == 3)) ||  /* CRY2KO */
+				((KO == 3) && (i == 0 || i == 80)) || /* PER1KO */
+				((KO == 4) && (i == 82)) || /* VIPKO */
+				((KO == 5) && (i == 76)) || /* cAMPKO */
+				((KO == 6) && (i == 5)) ) /* REVERBKO */
 				input[i] = 0.0;
 			else
 				input[i] = buffer;
-			
+
 //			if(n==ncells-1)
 //				printf("%lf\t",input[i]);
 		}
@@ -867,17 +953,6 @@ int write_Mfinal(Mstate *M, FILE *outfile)
 
 	return 0;
 }
-
-/*
-int write_Mresult(double *output, FILE *outfile)
-{
-	for (int i=0; i < Mrecsteps*ncells; i++)
-		fprintf(outfile, "\t%.12lf", output[i]);
-	fprintf(outfile, "\n");
-	
-	return 0;
-}
-*/
 
 int write_Mparams(Mparameters *p, const char *name)
 {
