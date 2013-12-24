@@ -557,15 +557,15 @@ int main(int argc, char *argv[])
 	write_Mresult(h_Mr->rot, Moutfi); // 10
 	write_Mresult(h_Mr->rtt, Moutfi); // 11
 	write_Mresult(h_Mr->bmt, Moutfi); // 12
-	write_Mresult(h_Mr->clt, Moutfi); // 13
-	write_Mresult(h_Mr->clct, Moutfi); // 14
-	write_Mresult(h_Mr->clnt, Moutfi); // 15
-	write_Mresult(h_Mr->revt, Moutfi); // 16
-	write_Mresult(h_Mr->cre, Moutfi); // 17
-	write_Mresult(h_Mr->vip, Moutfi); // 18
-	write_Mresult(h_Mr->G, Moutfi); // 19
-	write_Mresult(h_Mr->BC, Moutfi); // 20
-	write_Mresult(h_Mr->xtra, Moutfi); // 21
+//	write_Mresult(h_Mr->clt, Moutfi); // 13
+//	write_Mresult(h_Mr->clct, Moutfi); // 14
+//	write_Mresult(h_Mr->clnt, Moutfi); // 15
+	write_Mresult(h_Mr->revt, Moutfi); // 16 13
+	write_Mresult(h_Mr->cre, Moutfi); // 17 14
+	write_Mresult(h_Mr->vip, Moutfi); // 18 15
+	write_Mresult(h_Mr->G, Moutfi); // 19 16
+	write_Mresult(h_Mr->BC, Moutfi); // 20 17
+	write_Mresult(h_Mr->xtra, Moutfi); // 21 18
 
 	fprintf(performance,"%s\t%d\t%d\t%d\t",out_filename,NTHREADS, NBLOCKS, ncells);
 	fprintf(performance,"%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t", telapsed/(60*1000), telapsed/ncells*(CLKSPD*1e6), MISD, MPSD, EISD, EPSD);

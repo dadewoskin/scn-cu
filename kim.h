@@ -6,7 +6,7 @@
 #define Mnparams 85 //number of parameters
 
 #define Mrecord 100 // record data to file every record time steps
-#define Mnstep 86400
+#define Mnstep 43200
 //#define Mrecsteps 1 // number of result steps to record
 #define Mrecsteps ((int)(Mnstep/Mrecord)+1) // number of result steps to record
 

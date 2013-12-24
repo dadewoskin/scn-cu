@@ -673,14 +673,14 @@ __global__ void record_result(int i, Mresult *r, Mstate *s, Mparameters *p)
 	int stride = NTHREADS * NBLOCKS;
 	for (n=tid; n<ncells; n+=stride) {
 
-/*		r->pom[i+n] = s->MnPo[n] + s->McPo[n]; // per1 mRNA
+		r->pom[i+n] = s->MnPo[n] + s->McPo[n]; // per1 mRNA
 		r->ptm[i+n] = s->MnPt[n] + s->McPt[n]; // per2 mRNA
 		r->rom[i+n] = s->MnRo[n] + s->McRo[n]; // cry1 mRNA
 		r->rtm[i+n] = s->MnRt[n] + s->McRt[n]; // cry2 mRNA
 		r->bmm[i+n] = s->MnB[n] + s->McB[n]; // bmal mRNA
 		r->rvm[i+n] = s->MnRev[n] + s->McRev[n]; // reverb mRNA
 		r->npm[i+n] = s->MnNp[n] + s->McNp[n]; // bmal mRNA
-*/		
+		
 		r->pot[i+n] = s->x10000[n] + s->x10100[n] + s->x20000[n] + s->x20010[n] + s->x20011[n] + s->x20100[n] + s->x20110[n] + s->x20111[n] + s->x21000[n] + s->x21010[n] + s->x21011[n] + s->x21100[n] + s->x21110[n] + s->x21111[n] + s->x22000[n] + s->x22010[n] + s->x22011[n] + s->x22100[n] + s->x22110[n] + s->x22111[n]; // per1 protien
 
 		r->ptt[i+n] = s->x30000[n] + s->x30100[n] + s->x30200[n] + s->x30300[n] + s->x40000[n] + s->x40010[n] + s->x40011[n] + s->x40100[n] + s->x40110[n] + s->x40111[n] + s->x40200[n] + s->x40210[n] + s->x40211[n] + s->x40300[n] + s->x40310[n] + s->x40311[n] + s->x41000[n] + s->x41010[n] + s->x41011[n] + s->x41100[n] + s->x41110[n] + s->x41111[n] + s->x41200[n] + s->x41210[n] + s->x41211[n] + s->x41300[n] + s->x41310[n] + s->x41311[n] + s->x42000[n] + s->x42010[n] + s->x42011[n] + s->x42100[n] + s->x42110[n] + s->x42111[n] + s->x42200[n] + s->x42210[n] + s->x42211[n] + s->x42300[n] + s->x42310[n] + s->x42311[n] + s->x50000[n] + s->x50010[n] + s->x50011[n] + s->x50100[n] + s->x50110[n] + s->x50111[n] + s->x50200[n] + s->x50210[n] + s->x50211[n] + s->x50300[n] + s->x50310[n] + s->x50311[n] + s->x51000[n] + s->x51010[n] + s->x51011[n] + s->x51100[n] + s->x51110[n] + s->x51111[n] + s->x51200[n] + s->x51210[n] + s->x51211[n] + s->x51300[n] + s->x51310[n] + s->x51311[n] + s->x52000[n] + s->x52010[n] + s->x52011[n] + s->x52100[n] + s->x52110[n] + s->x52111[n] + s->x52200[n] + s->x52210[n] + s->x52211[n] + s->x52300[n] + s->x52310[n] + s->x52311[n] + s->x60000[n] + s->x60010[n] + s->x60011[n] + s->x60100[n] + s->x60110[n] + s->x60111[n] + s->x60200[n] + s->x60210[n] + s->x60211[n] + s->x60300[n] + s->x60310[n] + s->x60311[n] + s->x61000[n] + s->x61010[n] + s->x61011[n] + s->x61100[n] + s->x61110[n] + s->x61111[n] + s->x61200[n] + s->x61210[n] + s->x61211[n] + s->x61300[n] + s->x61310[n] + s->x61311[n] + s->x62000[n] + s->x62010[n] + s->x62011[n] + s->x62100[n] + s->x62110[n] + s->x62111[n] + s->x62200[n] + s->x62210[n] + s->x62211[n] + s->x62300[n] + s->x62310[n] + s->x62311[n]; // per2 protein
@@ -699,10 +699,8 @@ __global__ void record_result(int i, Mresult *r, Mstate *s, Mparameters *p)
 
 		r->revt[i+n] = s->revn[n] + s->cyrev[n] + s->revng[n] + s->cyrevg[n] + s->revngp[n] + s->cyrevgp[n] + s->revnp[n] + s->cyrevp[n];
 
-//		r->cre[i+n] = s->CRE[n];
-//		r->vip[i+n] = s->vip[n] + s->V10[n] + s->V11[n] + s->V12[n]; // all vip (free and bound to receptor)
-//		r->G[i+n] = s->G[n];
-		r->vip[i+n] = s->vip[n];
+		r->cre[i+n] = s->CRE[n];
+		r->vip[i+n] = s->vip[n] + s->V10[n] + s->V11[n] + s->V12[n]; // all vip (free and bound to receptor)
 		r->G[i+n] = s->G[n];
 		r->BC[i+n] = s->BC[n];
 //p->Ct[n] - (s->x30300[n]+s->x40300[n]+s->x40310[n]+s->x40311[n]+s->x41300[n]+s->x41310[n]+s->x41311[n]+s->x42300[n]+s->x42310[n]+s->x42311[n]+s->x50300[n]+s->x50310[n]+s->x50311[n]+s->x51300[n]+s->x51310[n]+s->x51311[n]+s->x52300[n]+s->x52310[n]+s->x52311[n]+s->x60300[n]+s->x60310[n]+s->x60311[n]+s->x61300[n]+s->x61310[n]+s->x61311[n]+s->x62300[n]+s->x62310[n]+s->x62311[n] + s->x00110[n]+s->x10100[n]+s->x20100[n]+s->x20110[n]+s->x20111[n]+s->x21100[n]+s->x21110[n]+s->x21111[n]+s->x22100[n]+s->x22110[n]+s->x22111[n]+s->x30100[n]+s->x40100[n]+s->x40110[n]+s->x40111[n]+s->x41100[n]+s->x41110[n]+s->x41111[n]+s->x42100[n]+s->x42110[n]+s->x42111[n]+s->x50100[n]+s->x50110[n]+s->x50111[n]+s->x51100[n]+s->x51110[n]+s->x51111[n]+s->x52100[n]+s->x52110[n]+s->x52111[n]+s->x60100[n]+s->x60110[n]+s->x60111[n]+s->x61100[n]+s->x61110[n]+s->x61111[n]+s->x62100[n]+s->x62110[n]+s->x62111[n]);

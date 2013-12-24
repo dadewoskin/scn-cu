@@ -42,12 +42,18 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, doub
 //		gkleak = max(0.01+.02*R,0.0);
 //		R = .5*(sin(PI/12.0*(t-10.3529))+1.0);
 //		R = p->clk[j]*M->G[j];
-
-//		.1 < R < .45
-		R = p->clk[j]*(max(M->BC[j]-4.0,0.0))/5.5;
 //		R = p->clk[j]*(.17*sin(PI/12.0*t)+.27);
-		gkca = 200*R+.01;
-		gkleak = .2*R+0.01;
+
+
+//		Original: .1 < R/p->clk < .45
+//		R = p->clk[j]*(max(M->BC[j]-4.0,0.0))/5.5;
+//		gkca = 200*R+.01;
+//		gkleak = .2*R+0.01;
+
+//		From PLOS CB paper (-5 < R < 5)
+		R = p->clk[j]*11.36*(M->G[j]-0.3);
+		gkca = 198.0/(1.0+exp(R))+2.0;
+		gkleak = 0.2/(1.0+exp(R));
 
 //		gkca = 200;
 //		gkleak = 0.0333;

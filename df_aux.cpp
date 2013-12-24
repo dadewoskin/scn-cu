@@ -100,7 +100,7 @@ int Einitialize_repeat(Estate *E, const char *name)
 
         printf("Reading in E initial conditions to repeat from file %s\n", name);
 	infile = open_file(name, "r");
-	while ( (fscanf(infile, "%lf,", &buffer) != EOF) && (count < Mnvars) )
+	while ( (fscanf(infile, "%lf,", &buffer) != EOF) && (count < Envars) )
 	{
 		input[count] = buffer;
 //		printf("%lf\t",input[count]);
