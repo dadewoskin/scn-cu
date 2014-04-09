@@ -841,7 +841,8 @@ int Mpinitialize_repeat(Mparameters *p, const char *name)
 		for(int i=0; i < Mnparams; i++)
 		{
 //			if( MRANDOMPARAMS & ( (i==0) | (i==1) | (i==80) | (i==81) | (i==58) | (i==59)) ) // perturb per1 and per2 transcription and degradation rates
-			if( MRANDOMPARAMS & ( (i==0) | (i==1) | (i==80) | (i==81) ) ) // perturb per1 and per2 transcription rates
+//			if( MRANDOMPARAMS & ( (i==0) | (i==1) | (i==80) | (i==81) ) ) // perturb per1 and per2 transcription rates
+			if( MRANDOMPARAMS ) // perturb all parameters
 				init[i] = randn(input[i], input[i]*MPSD);
 			else
 				init[i] = input[i];

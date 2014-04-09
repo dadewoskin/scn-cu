@@ -33,8 +33,12 @@
 // synaptic coupling constants
 #define THRESH 0
 #define PSC 1.0
-#define gsyn 1.0
-#define PERCENTEXCITE 0
+#define gsyn 0.5
+#define PERCENTEXCITE 40
+#define EXCITEDIST 2 	//options for how to distribute excitatory cells:
+			//0: Random
+			//1: first PERCENTEXCITE
+			//2: last PERCENTEXCITE
 
 /*struct Estate{
 	double V[ncells], m[ncells], h[ncells], n[ncells], rl[ncells], rnl[ncells], fnl[ncells], s[ncells], cas[ncells], cac[ncells], out[ncells];

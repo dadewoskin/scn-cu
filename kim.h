@@ -1,12 +1,12 @@
 #ifndef KIM_H_
 #define KIM_H_
 
-#define Mdt 0.005 /* step size (in hours) */
+#define Mdt 0.004 /* step size (in hours) */
 #define Mnvars 188 //number of variables
 #define Mnparams 85 //number of parameters
 
-#define Mrecord 100 // record data to file every record time steps
-#define Mnstep 43200
+#define Mrecord 50 // record data to file every record time steps
+#define Mnstep 66000
 //#define Mrecsteps 1 // number of result steps to record
 #define Mrecsteps ((int)(Mnstep/Mrecord)+1) // number of result steps to record
 

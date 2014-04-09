@@ -207,14 +207,34 @@ int Epinitialize_repeat(Eparameters *p, const char *name)
 
 		for(int i=0; i < Enparams; i++)
 		{
-			double tmp = ((double)n)/ncells;
-//			if(i==13)
-//				printf("%lf\t", tmp);
 			if( ERANDOMPARAMS & ( (i==10) | (i==12) ) ) // perturb Eca and clk
 				init[i] = randn(input[i], input[i]*EPSD);
-			else if( (i==13) &  PERCENTEXCITE > 0)
-				init[i] = -80.0 + 24.0*(tanh(.05*((double)n-((double)ncells*(1.0-PERCENTEXCITE/100.0)))) + 1.0);
-//				init[i] = -60;
+			else if( (i==13) & PERCENTEXCITE > 0)
+			{
+				double tmp = ((double)n)/ncells;
+				if(EXCITEDIST == 1)
+				{
+					if( tmp*100.0 < (PERCENTEXCITE) )
+						input[i] = -32;
+					else
+						input[i] = -80;
+				}
+				else if(EXCITEDIST == 2)
+				{
+					if( tmp*100.0 > (100.0-PERCENTEXCITE) )
+						input[i] = -32;
+					else
+						input[i] = -80;
+				}
+				else
+				{
+					double rnum  = randu(0,1);
+					if( rnum < PERCENTEXCITE/100.0 )
+						input[i] = -32;
+					else
+						input[i] = -80;
+				}	
+			}
 			else
 				init[i] = input[i];
 //			printf("%lf\t",init[0]);
@@ -252,13 +272,29 @@ int Epinitialize(Eparameters *p, const char *name)
 				input[i] = randn(input[i], input[i]*EPSD);
 			else if( (i==13) & PERCENTEXCITE > 0)
 			{
-//				init[i] = -80.0 + 24.0*(tanh(.05*((double)n-((double)ncells*(1.0-PERCENTEXCITE/100.0)))) + 1.0);
-//				init[i] = -60;
 				double tmp = ((double)n)/ncells;
-				if( tmp*100.0 > (100.0-PERCENTEXCITE) )
-					input[i] = -32;
+				if(EXCITEDIST == 1)
+				{
+					if( tmp*100.0 < (PERCENTEXCITE) )
+						input[i] = -32;
+					else
+						input[i] = -80;
+				}
+				else if(EXCITEDIST == 2)
+				{
+					if( tmp*100.0 > (100.0-PERCENTEXCITE) )
+						input[i] = -32;
+					else
+						input[i] = -80;
+				}
 				else
-					input[i] = -80;
+				{
+					double rnum  = randu(0,1);
+					if( rnum < PERCENTEXCITE/100.0 )
+						input[i] = -32;
+					else
+						input[i] = -80;
+				}	
 			}
 			else
 				input[i] = buffer;
@@ -335,7 +371,6 @@ int write_Eparams(Eparameters *p, const char *name)
 	return 0;
 }
 
-//int write_Eresult(double *output, FILE *Voutfile, FILE *Coutfile, FILE *Ooutfile, int Mt_step)
 int write_Eresult(double *output, FILE *outfile, int record, int Mt_step, int summary)
 {
 	printf("Writing ephys record %d, mt_step = %d, summary = %d\n",record,Mt_step, summary);
@@ -356,17 +391,10 @@ int write_Eresult(double *output, FILE *outfile, int record, int Mt_step, int su
 	{
 		for (int i=0; i<(maxt+1); i++) {
 			fprintf(outfile, "%.12lf", curr_t+i*Edt*Erecord/3600000.0);
-//			fprintf(Voutfile, "%.12lf", curr_t+i*Edt*Erecord/3600000.0);
-//			fprintf(Coutfile, "%.12lf", curr_t+i*Edt*Erecord/3600000.0);
-//			fprintf(Ooutfile, "%.12lf", curr_t+i*Edt*Erecord/3600000.0);
 			for (int j=0; j<ncells; j++) {
 				fprintf(outfile, "\t%.12lf", output[record*Eres_len+j+i*ncells]);
-//				fprintf(Coutfile, "\t%.12lf", output[Eres_len+j+i*ncells]);
-//				fprintf(Ooutfile, "\t%.12lf", output[2*Eres_len+j+i*ncells]);
 			}
 			fprintf(outfile, "\n");
-//			fprintf(Coutfile, "\n");
-//			fprintf(Ooutfile, "\n");
 		}
 	}
 	return 0;

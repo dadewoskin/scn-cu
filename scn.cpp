@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 	}
 	else {	//use default M initial conditions
 //		sprintf(Minit_filename, "./Minit/Mf20131204_Hastings_per_grid.txt");
-		sprintf(Minit_filename, "./Minit/Mf20131209_1celldefault.txt");
+		sprintf(Minit_filename, "./Minit/Mf20131212_An_vip_kcc2Egaba.txt");
 		if(Minitialize_repeat(h_Mx, Minit_filename))
 			exit(EXIT_FAILURE);
 	}
@@ -242,7 +242,7 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 	else {	//use default initial conditions
-		sprintf(Einit_filename, "./Einit/Ef20131023_Hastings_per_grid.txt");
+		sprintf(Einit_filename, "./Einit/Ef20131212_An_vip_kcc2Egaba.txt");
 		if(Einitialize(h_Ex, Einit_filename))
 			exit(EXIT_FAILURE);
 	}
@@ -258,7 +258,7 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 	else {	//use default M parameters
-		sprintf(Mparam_filename, "./Mparameters/20131205_1celldefault.txt");
+		sprintf(Mparam_filename, "./Mparameters/20131212_An_rp05_Vt4.txt");
 		if(Mpinitialize_repeat(h_Mp, Mparam_filename))
 			exit(EXIT_FAILURE);
 	}
@@ -272,7 +272,7 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 	else {	//use default E parameters
-                sprintf(Eparam_filename, "./Eparameters/20131023_Hastings_per_grid.txt");
+                sprintf(Eparam_filename, "./Eparameters/20131212_An_kcc2_Egaba.txt");
 		if(Epinitialize(h_Ep, Eparam_filename))
 			exit(EXIT_FAILURE);
 	}
@@ -298,7 +298,8 @@ int main(int argc, char *argv[])
 	if (MAKECONNECT == 0) {
 		if (MREADCONN == 0) // use default Mconnectivity matrix
 		{
-			sprintf(Mconnect_filename, "./connectivity/connectivity_hastingsperVIP_cnct100_1024.txt");
+			sprintf(Mconnect_filename, "./connectivity/connectivity_An_vip.txt");
+	//		sprintf(Mconnect_filename, "./connectivity/connectivity_hastingsperVIP_cnct100_1024.txt");
 			printf("Using default VIP connectivity matrix: %s\n", Mconnect_filename);
 		}
 		if(read_connect(Mconnect_filename, h_MC))
@@ -313,9 +314,9 @@ int main(int argc, char *argv[])
 	}
 	else {
 		srand (time(NULL));
-		make_rconnect(h_MC,0.30);
+		make_rconnect(h_MC,0.10);
 		printf("MC made\n");
-		make_rconnect(h_EC,0.30);
+		make_rconnect(h_EC,0.10);
 		printf("EC made\n");
 		sprintf(Mconnect_filename,"M%s",out_filename);
 		sprintf(Econnect_filename,"E%s",out_filename);
@@ -429,20 +430,20 @@ int main(int argc, char *argv[])
 	sprintf(path,"./output/EV%s",out_filename);
 	FILE *EVoutfi = open_file(path, "w");
 
-//	sprintf(path,"./output/EC%s",out_filename);
-//	FILE *ECoutfi = open_file(path, "w");
+	sprintf(path,"./output/EC%s",out_filename);
+	FILE *ECoutfi = open_file(path, "w");
 
 	sprintf(path,"./output/ECsummary%s",out_filename);
 	FILE *ECsummaryoutfi = open_file(path, "w");
 
-//	sprintf(path,"./output/EO%s",out_filename);
-//	FILE *EOoutfi = open_file(path, "w");
+	sprintf(path,"./output/EO%s",out_filename);
+	FILE *EOoutfi = open_file(path, "w");
 
 	sprintf(path,"./output/Ef%s",out_filename);
 	FILE *Efoutfi = open_file(path, "w");
 
-	sprintf(path,"./output/Egaba%s",out_filename);
-	FILE *EXoutfi = open_file(path, "w");
+//	sprintf(path,"./output/Egaba%s",out_filename);
+//	FILE *EXoutfi = open_file(path, "w");
 
 	FILE *performance;
 	sprintf(path,"performance.txt");
@@ -493,13 +494,13 @@ int main(int argc, char *argv[])
 				leapfrog_copy_wrapper(iE, Eres_len, Eresult, Exi, Exf, Einput, Eupstream);
 				if (Et_step%Erecord==0) {iE+=ncells;}
 			}
-			if( Mt_step%100==0 ) {
+			if( Mt_step%20==0 ) {
 				CUDA_SAFE_CALL (cudaMemcpy(h_Eresult, Eresult, ENRES*Eres_len*sizeof(double), cudaMemcpyDeviceToHost));
 				write_Eresult(h_Eresult, ECsummaryoutfi, 1, Mt_step, 1);
-				if( Mt_step%200==0 && Mt_step > (double)Mnstep*5.0/10.0) {
+				if( Mt_step%200==0 && Mt_step > (double)Mnstep*7.0/10.0) {
 					write_Eresult(h_Eresult, EVoutfi, 0, Mt_step, 0);
-//					write_Eresult(h_Eresult, ECoutfi, 1, Mt_step, 0);
-//					write_Eresult(h_Eresult, EOoutfi, 2, Mt_step, 0);
+					write_Eresult(h_Eresult, ECoutfi, 1, Mt_step, 0);
+					write_Eresult(h_Eresult, EOoutfi, 2, Mt_step, 0);
 				}
 			}
 //				CUDA_SAFE_CALL (cudaMemcpy(h_Ep->Egaba, Ep->Egaba, ncells*sizeof(double), cudaMemcpyDeviceToHost));
@@ -545,30 +546,31 @@ int main(int argc, char *argv[])
 
 	CUDA_SAFE_CALL (cudaMemcpy(h_Mr, Mr, sizeof(Mresult), cudaMemcpyDeviceToHost));
 
-	write_Mresult(h_Mr->pom, Moutfi); // 1
-	write_Mresult(h_Mr->ptm, Moutfi); // 2
-	write_Mresult(h_Mr->rom, Moutfi); // 3
-	write_Mresult(h_Mr->rtm, Moutfi); // 4
-	write_Mresult(h_Mr->bmm, Moutfi); // 5
-	write_Mresult(h_Mr->rvm, Moutfi); // 6
-	write_Mresult(h_Mr->npm, Moutfi); // 7
-	write_Mresult(h_Mr->pot, Moutfi); // 8
-	write_Mresult(h_Mr->ptt, Moutfi); // 9
-	write_Mresult(h_Mr->rot, Moutfi); // 10
-	write_Mresult(h_Mr->rtt, Moutfi); // 11
-	write_Mresult(h_Mr->bmt, Moutfi); // 12
+//	write_Mresult(h_Mr->pom, Moutfi); // 1
+//	write_Mresult(h_Mr->ptm, Moutfi); // 2
+//	write_Mresult(h_Mr->rom, Moutfi); // 3
+//	write_Mresult(h_Mr->rtm, Moutfi); // 4
+//	write_Mresult(h_Mr->bmm, Moutfi); // 5
+//	write_Mresult(h_Mr->rvm, Moutfi); // 6
+//	write_Mresult(h_Mr->npm, Moutfi); // 7
+	write_Mresult(h_Mr->pot, Moutfi); // 8		1
+	write_Mresult(h_Mr->ptt, Moutfi); // 9		2
+	write_Mresult(h_Mr->rot, Moutfi); // 10		3
+	write_Mresult(h_Mr->rtt, Moutfi); // 11		4
+	write_Mresult(h_Mr->bmt, Moutfi); // 12		5
 //	write_Mresult(h_Mr->clt, Moutfi); // 13
 //	write_Mresult(h_Mr->clct, Moutfi); // 14
 //	write_Mresult(h_Mr->clnt, Moutfi); // 15
-	write_Mresult(h_Mr->revt, Moutfi); // 16 13
-	write_Mresult(h_Mr->cre, Moutfi); // 17 14
-	write_Mresult(h_Mr->vip, Moutfi); // 18 15
-	write_Mresult(h_Mr->G, Moutfi); // 19 16
-	write_Mresult(h_Mr->BC, Moutfi); // 20 17
-	write_Mresult(h_Mr->xtra, Moutfi); // 21 18
+//	write_Mresult(h_Mr->revt, Moutfi); // 16 13
+	write_Mresult(h_Mr->cre, Moutfi); // 17 14	6
+	write_Mresult(h_Mr->vip, Moutfi); // 18 15	7
+	write_Mresult(h_Mr->G, Moutfi); // 19 16	8
+//	write_Mresult(h_Mr->BC, Moutfi); // 20 17
+//	write_Mresult(h_Mr->xtra, Moutfi); // 21 18
 
 	fprintf(performance,"%s\t%d\t%d\t%d\t",out_filename,NTHREADS, NBLOCKS, ncells);
 	fprintf(performance,"%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t", telapsed/(60*1000), telapsed/ncells*(CLKSPD*1e6), MISD, MPSD, EISD, EPSD);
+	fprintf(performance,"%lf\t%lf\t", gsyn, KO);
 	fprintf(performance,"%s\t%s\t%s\t%s\t%s\t%s\n", Mconnect_filename, Minit_filename, Mparam_filename, Econnect_filename, Einit_filename, Eparam_filename);
 
 	if (MFINAL) { //write final state of molecular clock
@@ -582,10 +584,10 @@ int main(int argc, char *argv[])
 
 	///////////////////////////// Close files and free memory ////////////////////////////////
 	fclose(EVoutfi);
-//	fclose(ECoutfi);
+	fclose(ECoutfi);
 	fclose(ECsummaryoutfi);
-//	fclose(EOoutfi);
-	fclose(EXoutfi);
+	fclose(EOoutfi);
+//	fclose(EXoutfi);
 	fclose(Efoutfi);
 	fclose(Moutfi);
 	fclose(Mfoutfi);

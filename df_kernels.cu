@@ -51,7 +51,10 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, doub
 //		gkleak = .2*R+0.01;
 
 //		From PLOS CB paper (-5 < R < 5)
-		R = p->clk[j]*11.36*(M->G[j]-0.3);
+//		R = p->clk[j]*11.36*(M->G[j]-0.3); //original - reverted around 3/20 something = R1
+		R = p->clk[j]*11.36*(M->G[j]-0.25); //changed in ~2/2014? = R2
+//		R = p->clk[j]*11.36*((17.9416*M->G[j]+25.9390*M->CRE[j]*M->G[j])/40.0 - 0.3); // begin testing on 4/2 = R3
+
 		gkca = 198.0/(1.0+exp(R))+2.0;
 		gkleak = 0.2/(1.0+exp(R));
 
@@ -115,7 +118,8 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, doub
 		//Update post-synaptic current out of this cell
 //		xf->out[j] = (1.0-p->lambda[j]*Edt/2.0)/(1.0+p->lambda[j]*Edt/2.0)*xi->out[j];
 		xf->out[j] = gsyn*xf->y[j]*(p->Egaba[j]-xf->V[j]); // not really ouput; this is the gaba current
-		xf->gaba[j] = 1.0/(1.0+exp(-(xf->V[j]-2.0)/3.0));
+//		xf->gaba[j] = 1.0/(1.0+exp(-(xf->V[j]-2.0)/3.0)); // g1 original from math found neurosci
+		xf->gaba[j] = 1.0/(1.0+exp(-(xf->V[j]+20.0)/3.0)); // g2 changed 20140406
 //		xf->gaba[j] = 0.5*(1.0+tanh(0.4*xf->V[j]));
 
 		//Check if a spike occured, and if it did increase the post-synaptic current out of this cell

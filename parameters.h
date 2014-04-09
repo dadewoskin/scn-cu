@@ -22,7 +22,7 @@
 #define EPSD (ERANDOMPARAMS*0.02) //standard deviation = SD*mean for random perturbations of ephys parameters
 
 /////////////////////
-#define KO 0 
+#define KO 4
 //// KNOCKOUTS ////
 //0: No knockout
 //1: Cry1

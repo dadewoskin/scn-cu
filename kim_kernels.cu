@@ -466,9 +466,9 @@ __global__ void rk4(Mstate *s, Mstate *k1, Mstate *k2, Mstate *k3, Mstate *k4, d
 	for (n=tid; n<ncells; n+=stride) {
 	/* Used for creating PRC */
 	// add stim to rhs of whichever state variable you want to add stimulus to //
-	/*        double stim = 0;
-                double offset = idx*1.0;
-                double stim_t = 52.5+offset;
+	       /* double stim = 0;
+//                double offset = idx*1.0;
+                double stim_t = 200;
                 if (t == stim_t)
                         stim = 20;
 */
