@@ -1,0 +1,18 @@
+# Compiled source #
+###################
+*.exe
+*.o
+
+*test*
+*.txt
+*.php
+
+.DS*
+
+/Einit
+/Eparameters/*
+/Minit/*
+/Mparameters/*
+/output/*
+/backup
+/connectivity

@@ -6,7 +6,7 @@
 #include "kim.h"
 #include "utils.h"
 
-int read_cac(double *input, int len)
+int read_cac(ephys_t *input, int len)
 {
 	FILE *myfile;
 	char filename[50];
@@ -28,7 +28,7 @@ int read_cac(double *input, int len)
 	for(i = 0; i < len; i++)
 	{
 		fscanf(myfile, "%lf", &buffer);
-		input[i] = buffer;
+		input[i] = (ephys_t)buffer;
 		if(!mod(i,1000))
 			printf("%.15f\n", input[i]);
 	}
@@ -38,7 +38,7 @@ int read_cac(double *input, int len)
 	return 0;
 }
 
-int write_array(double *output, int len, FILE *outfile)
+int write_array(ephys_t *output, int len, FILE *outfile)
 {
 	for (int i=0; i<len; i++) {
 		fprintf(outfile, "%lf\t", output[i]);
@@ -47,7 +47,7 @@ int write_array(double *output, int len, FILE *outfile)
 	return 0;
 }
 
-int read_connect(char *filename, double *C)
+int read_connect(char *filename, ephys_t *C)
 {
 	FILE *myfile;
  	double buffer;
@@ -55,7 +55,6 @@ int read_connect(char *filename, double *C)
 	int j=0;
   	
 	char connectpath[50];
-//	sprintf(connectpath,"./connectivity/%s",filename);
 	sprintf(connectpath,"%s",filename);
 	
 	//Open connection to file
@@ -71,7 +70,7 @@ int read_connect(char *filename, double *C)
 	printf("Reading in connectivity.\n");
 
 	while (fscanf(myfile, "%lf", &buffer) != EOF) {
-		C[j+i*ncells] = buffer;
+		C[j+i*ncells] = (ephys_t)buffer;
 		j++;
 		if (j==ncells) {
 			j=0;
@@ -102,7 +101,7 @@ int read_connect(char *filename, double *C)
 	return 0;
 }
 
-int make_rconnect(double *C, double pctconnect)
+int make_rconnect(ephys_t *C, double pctconnect)
 {
 	double rnum;
   	
@@ -133,7 +132,7 @@ int make_rconnect(double *C, double pctconnect)
 }
 
 
-int write_connect(double *C, const char *name)
+int write_connect(ephys_t *C, const char *name)
 {
 	//write the column-major matrix C to file
 	FILE *file;

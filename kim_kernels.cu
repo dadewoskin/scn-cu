@@ -8,7 +8,7 @@
 #include "kim.h"
 #include "parameters.h"
 
-__global__ void rhs(double t, Mstate *s, Mstate *s_dot, Mparameters *p, Estate *x, double *input, int *upstream, int LIGHT)
+__global__ void rhs(double t, Mstate *s, Mstate *s_dot, Mparameters *p, Estate *x, mclock_t *input, int *upstream, int LIGHT)
 {
 	// Calculates right hand side
 	int n;
@@ -17,26 +17,35 @@ __global__ void rhs(double t, Mstate *s, Mstate *s_dot, Mparameters *p, Estate *
 
 	for (n=tid; n<ncells; n+=stride) {
 	/* Used for creating PRC */
+	// single cell PRC
 	// add stim to rhs of whichever state variable you want to add stimulus to //
-/*		double stim = 0;
-		double offset = (double)(n-1.0)/(ncells-2.0)*24.0;
-		double stim_t = 100+offset;
-		double stim_len	= 2;
+/*		mclock_t stim = 0;
+		mclock_t offset = (mclock_t)(n-1.0)/(ncells-2.0)*24.0;
+		mclock_t stim_t = 100+offset;
+		mclock_t stim_len	= 2;
 		if (n==0)
 			stim=0;
 		else if (t >= stim_t && t < stim_t+stim_len)
 			stim = 10;
 */
-
+	// network PRC
+	// add stim to rhs of whichever state variable you want to add stimulus to //
+/*		mclock_t stim = 0;
+		mclock_t offset = 18.0;
+		mclock_t stim_t = 44.0+offset;
+		mclock_t stim_len = 6.0;
+		if (t >= stim_t && t < stim_t+stim_len)
+			stim = 5.0;
+*/
 	/* Calculate conserved quantities */
 		//Free receptor
-		double V00 = p->Vt[n]-s->V10[n]-s->V11[n]-s->V12[n]-s->V01[n]-s->V02[n]; // free receptor
+		mclock_t V00 = p->Vt[n]-s->V10[n]-s->V11[n]-s->V12[n]-s->V01[n]-s->V02[n]; // free receptor
 		//Complexes with both CK1 and GSK3B
-		double Kinases = s->x30300[n]+s->x40300[n]+s->x40310[n]+s->x40311[n]+s->x41300[n]+s->x41310[n]+s->x41311[n]+s->x42300[n]+s->x42310[n]+s->x42311[n]+s->x50300[n]+s->x50310[n]+s->x50311[n]+s->x51300[n]+s->x51310[n]+s->x51311[n]+s->x52300[n]+s->x52310[n]+s->x52311[n]+s->x60300[n]+s->x60310[n]+s->x60311[n]+s->x61300[n]+s->x61310[n]+s->x61311[n]+s->x62300[n]+s->x62310[n]+s->x62311[n];
+		mclock_t Kinases = s->x30300[n]+s->x40300[n]+s->x40310[n]+s->x40311[n]+s->x41300[n]+s->x41310[n]+s->x41311[n]+s->x42300[n]+s->x42310[n]+s->x42311[n]+s->x50300[n]+s->x50310[n]+s->x50311[n]+s->x51300[n]+s->x51310[n]+s->x51311[n]+s->x52300[n]+s->x52310[n]+s->x52311[n]+s->x60300[n]+s->x60310[n]+s->x60311[n]+s->x61300[n]+s->x61310[n]+s->x61311[n]+s->x62300[n]+s->x62310[n]+s->x62311[n];
 		//Unbound CK1 in cytoplasm (x00100)
-		double x00100 = p->Ct[n] - (Kinases + s->x00110[n]+s->x10100[n]+s->x20100[n]+s->x20110[n]+s->x20111[n]+s->x21100[n]+s->x21110[n]+s->x21111[n]+s->x22100[n]+s->x22110[n]+s->x22111[n]+s->x30100[n]+s->x40100[n]+s->x40110[n]+s->x40111[n]+s->x41100[n]+s->x41110[n]+s->x41111[n]+s->x42100[n]+s->x42110[n]+s->x42111[n]+s->x50100[n]+s->x50110[n]+s->x50111[n]+s->x51100[n]+s->x51110[n]+s->x51111[n]+s->x52100[n]+s->x52110[n]+s->x52111[n]+s->x60100[n]+s->x60110[n]+s->x60111[n]+s->x61100[n]+s->x61110[n]+s->x61111[n]+s->x62100[n]+s->x62110[n]+s->x62111[n]);
+		mclock_t x00100 = p->Ct[n] - (Kinases + s->x00110[n]+s->x10100[n]+s->x20100[n]+s->x20110[n]+s->x20111[n]+s->x21100[n]+s->x21110[n]+s->x21111[n]+s->x22100[n]+s->x22110[n]+s->x22111[n]+s->x30100[n]+s->x40100[n]+s->x40110[n]+s->x40111[n]+s->x41100[n]+s->x41110[n]+s->x41111[n]+s->x42100[n]+s->x42110[n]+s->x42111[n]+s->x50100[n]+s->x50110[n]+s->x50111[n]+s->x51100[n]+s->x51110[n]+s->x51111[n]+s->x52100[n]+s->x52110[n]+s->x52111[n]+s->x60100[n]+s->x60110[n]+s->x60111[n]+s->x61100[n]+s->x61110[n]+s->x61111[n]+s->x62100[n]+s->x62110[n]+s->x62111[n]);
 		//Unbound GSK3B in cytoplasm (x00200)
-		double x00200 = p->Gt[n] - (Kinases + s->cyrevg[n]+s->revng[n]+s->cyrevgp[n]+s->revngp[n]+s->x00210[n]+s->x30200[n]+s->x40200[n]+s->x40210[n]+s->x40211[n]+s->x41200[n]+s->x41210[n]+s->x41211[n]+s->x42200[n]+s->x42210[n]+s->x42211[n]+s->x50200[n]+s->x50210[n]+s->x50211[n]+s->x51200[n]+s->x51210[n]+s->x51211[n]+s->x52200[n]+s->x52210[n]+s->x52211[n]+s->x60200[n]+s->x60210[n]+s->x60211[n]+s->x61200[n]+s->x61210[n]+s->x61211[n]+s->x62200[n]+s->x62210[n]+s->x62211[n]);
+		mclock_t x00200 = p->Gt[n] - (Kinases + s->cyrevg[n]+s->revng[n]+s->cyrevgp[n]+s->revngp[n]+s->x00210[n]+s->x30200[n]+s->x40200[n]+s->x40210[n]+s->x40211[n]+s->x41200[n]+s->x41210[n]+s->x41211[n]+s->x42200[n]+s->x42210[n]+s->x42211[n]+s->x50200[n]+s->x50210[n]+s->x50211[n]+s->x51200[n]+s->x51210[n]+s->x51211[n]+s->x52200[n]+s->x52210[n]+s->x52211[n]+s->x60200[n]+s->x60210[n]+s->x60211[n]+s->x61200[n]+s->x61210[n]+s->x61211[n]+s->x62200[n]+s->x62210[n]+s->x62211[n]);
 
 	/* Calculate derivatives */
 		s_dot->GR[n] = -(p->unbin[n]*s->GR[n])+p->bin[n]*(1-s->G[n]-s->GR[n])*(s->x01011[n]+s->x02011[n]);
@@ -232,31 +241,36 @@ __global__ void rhs(double t, Mstate *s, Mstate *s_dot, Mparameters *p, Estate *
 		/////////////// Light equation /////////////////////
 		s_dot->ltn[n] = 60.0*LIGHT*p->lta[n]*(1.0-s->ltn[n])-p->ltb[n]*s->ltn[n];
 /*
-		double frsk = 0.0;
-		double fractpart, intpart;
+		mclock_t frsk = 0.0;
+		mclock_t fractpart, intpart;
 		fractpart = modf (t/24.0, &intpart);
-		double CT = 24.0*fractpart;
+		mclock_t CT = 24.0*fractpart;
 */
-//		if ( (n <= (double)ncells/3.0) && ( CT >=6.0 ) && (CT < 18.0) )
-/*		if ( (n <= (double)ncells/3.0) && ( CT >=12.0 ) )
+//		if ( (n <= (float)ncells/3.0) && ( CT >=6.0 ) && (CT < 18.0) )
+/*		if ( (n <= (float)ncells/3.0) && ( CT >=12.0 ) )
 			frsk = 1.0;
 		else
 			frsk = 0.0;
 */
-		/////////////// Signalling equations ///////////////
-		s_dot->vip[n] = (double)(CPL)*6000.0*p->vpr[n]*input[n]/upstream[n]-p->uv[n]*s->vip[n]-p->vbin[n]*(V00+s->V01[n]+s->V02[n])*s->vip[n]+p->unvbin[n]*(s->V10[n]+s->V11[n]+s->V12[n]);
+		mclock_t cscale = 1.0;
+		mclock_t vscale = 1.0;
+		/////////////// Signall*ing equations ///////////////
+		//network coupled
+		s_dot->vip[n] = (mclock_t)(CPL)*6000.0*p->vpr[n]*input[n]/upstream[n]-p->uv[n]*s->vip[n]-p->vbin[n]*(V00+s->V01[n]+s->V02[n])*s->vip[n]+p->unvbin[n]*(s->V10[n]+s->V11[n]+s->V12[n]);
+		//self coupled
+//		s_dot->vip[n] = 6000.0*p->vpr[n]*x->cac[n]-p->uv[n]*s->vip[n]-p->vbin[n]*(V00+s->V01[n]+s->V02[n])*s->vip[n]+p->unvbin[n]*(s->V10[n]+s->V11[n]+s->V12[n]);
 		s_dot->V10[n] = p->vbin[n]*V00*s->vip[n]-p->unvbin[n]*s->V10[n]-p->cvbin[n]*s->V10[n]*(s->x01000[n]+s->x02000[n])+p->uncvbin[n]*(s->V11[n]+s->V12[n]);
 		s_dot->V11[n] = p->cvbin[n]*s->V10[n]*s->x01000[n]-(p->unvbin[n]+p->uncvbin[n])*s->V11[n]+p->vbin[n]*s->V01[n]*s->vip[n];
 		s_dot->V12[n] = p->cvbin[n]*s->V10[n]*s->x02000[n]-(p->unvbin[n]+p->uncvbin[n])*s->V12[n]+p->vbin[n]*s->V02[n]*s->vip[n];
 		s_dot->V01[n] = p->cvbin[n]*V00*s->x01000[n]-p->uncvbin[n]*s->V01[n]-p->vbin[n]*s->V01[n]*s->vip[n]+p->unvbin[n]*s->V11[n];
 		s_dot->V02[n] = p->cvbin[n]*V00*s->x02000[n]-p->uncvbin[n]*s->V02[n]-p->vbin[n]*s->V02[n]*s->vip[n]+p->unvbin[n]*s->V12[n];
-		s_dot->cAMP[n] = p->vs[n]*s->V10[n]-p->us[n]*s->cAMP[n];
-		s_dot->CREB[n] = (1.0+EPHYS*6499.0)*x->cac[n] + p->vs[n]*s->cAMP[n]-p->us[n]*s->CREB[n];
+		s_dot->cAMP[n] = vscale*p->vs[n]*s->V10[n]-p->us[n]*s->cAMP[n];
+		s_dot->CREB[n] = cscale*(1.0+EPHYS*6499.0)*x->cac[n] + vscale*p->vs[n]*s->cAMP[n]-p->us[n]*s->CREB[n];
 		s_dot->CRE[n] = p->sbin[n]*s->CREB[n]*(1.0-s->CRE[n])-p->unsbin[n]*s->CRE[n];
 	}
 }
 
-__global__ void lincomb(double c, Mstate *s, Mstate *s1, Mstate *s2)
+__global__ void lincomb(mclock_t c, Mstate *s, Mstate *s1, Mstate *s2)
 {
 	// creates new struct: s = s1+c*s2
 	int n;
@@ -456,7 +470,7 @@ __global__ void lincomb(double c, Mstate *s, Mstate *s1, Mstate *s2)
 	}
 }
 
-__global__ void rk4(Mstate *s, Mstate *k1, Mstate *k2, Mstate *k3, Mstate *k4, double t, double idx) 
+__global__ void rk4(Mstate *s, Mstate *k1, Mstate *k2, Mstate *k3, Mstate *k4, double t, mclock_t idx) 
 {
 	// Calculate state at next time step using RK4
 	int n;
@@ -466,9 +480,9 @@ __global__ void rk4(Mstate *s, Mstate *k1, Mstate *k2, Mstate *k3, Mstate *k4, d
 	for (n=tid; n<ncells; n+=stride) {
 	/* Used for creating PRC */
 	// add stim to rhs of whichever state variable you want to add stimulus to //
-	       /* double stim = 0;
-//                double offset = idx*1.0;
-                double stim_t = 200;
+	       /* mclock_t stim = 0;
+//                mclock_t offset = idx*1.0;
+                mclock_t stim_t = 200;
                 if (t == stim_t)
                         stim = 20;
 */
@@ -702,22 +716,24 @@ __global__ void record_result(int i, Mresult *r, Mstate *s, Mparameters *p)
 		r->cre[i+n] = s->CRE[n];
 		r->vip[i+n] = s->vip[n] + s->V10[n] + s->V11[n] + s->V12[n]; // all vip (free and bound to receptor)
 		r->G[i+n] = s->G[n];
-		r->BC[i+n] = s->BC[n];
+		//Unbound GSK3B in cytoplasm (x00200)
+		r->gsk[i+n] = p->Gt[n] - (s->x30300[n]+s->x40300[n]+s->x40310[n]+s->x40311[n]+s->x41300[n]+s->x41310[n]+s->x41311[n]+s->x42300[n]+s->x42310[n]+s->x42311[n]+s->x50300[n]+s->x50310[n]+s->x50311[n]+s->x51300[n]+s->x51310[n]+s->x51311[n]+s->x52300[n]+s->x52310[n]+s->x52311[n]+s->x60300[n]+s->x60310[n]+s->x60311[n]+s->x61300[n]+s->x61310[n]+s->x61311[n]+s->x62300[n]+s->x62310[n]+s->x62311[n]+s->cyrevg[n]+s->revng[n]+s->cyrevgp[n]+s->revngp[n]+s->x00210[n]+s->x30200[n]+s->x40200[n]+s->x40210[n]+s->x40211[n]+s->x41200[n]+s->x41210[n]+s->x41211[n]+s->x42200[n]+s->x42210[n]+s->x42211[n]+s->x50200[n]+s->x50210[n]+s->x50211[n]+s->x51200[n]+s->x51210[n]+s->x51211[n]+s->x52200[n]+s->x52210[n]+s->x52211[n]+s->x60200[n]+s->x60210[n]+s->x60211[n]+s->x61200[n]+s->x61210[n]+s->x61211[n]+s->x62200[n]+s->x62210[n]+s->x62211[n]);
+
 //p->Ct[n] - (s->x30300[n]+s->x40300[n]+s->x40310[n]+s->x40311[n]+s->x41300[n]+s->x41310[n]+s->x41311[n]+s->x42300[n]+s->x42310[n]+s->x42311[n]+s->x50300[n]+s->x50310[n]+s->x50311[n]+s->x51300[n]+s->x51310[n]+s->x51311[n]+s->x52300[n]+s->x52310[n]+s->x52311[n]+s->x60300[n]+s->x60310[n]+s->x60311[n]+s->x61300[n]+s->x61310[n]+s->x61311[n]+s->x62300[n]+s->x62310[n]+s->x62311[n] + s->x00110[n]+s->x10100[n]+s->x20100[n]+s->x20110[n]+s->x20111[n]+s->x21100[n]+s->x21110[n]+s->x21111[n]+s->x22100[n]+s->x22110[n]+s->x22111[n]+s->x30100[n]+s->x40100[n]+s->x40110[n]+s->x40111[n]+s->x41100[n]+s->x41110[n]+s->x41111[n]+s->x42100[n]+s->x42110[n]+s->x42111[n]+s->x50100[n]+s->x50110[n]+s->x50111[n]+s->x51100[n]+s->x51110[n]+s->x51111[n]+s->x52100[n]+s->x52110[n]+s->x52111[n]+s->x60100[n]+s->x60110[n]+s->x60111[n]+s->x61100[n]+s->x61110[n]+s->x61111[n]+s->x62100[n]+s->x62110[n]+s->x62111[n]);
 
-		r->xtra[i+n] = p->Gt[n] - (s->x30300[n]+s->x40300[n]+s->x40310[n]+s->x40311[n]+s->x41300[n]+s->x41310[n]+s->x41311[n]+s->x42300[n]+s->x42310[n]+s->x42311[n]+s->x50300[n]+s->x50310[n]+s->x50311[n]+s->x51300[n]+s->x51310[n]+s->x51311[n]+s->x52300[n]+s->x52310[n]+s->x52311[n]+s->x60300[n]+s->x60310[n]+s->x60311[n]+s->x61300[n]+s->x61310[n]+s->x61311[n]+s->x62300[n]+s->x62310[n]+s->x62311[n]+ s->cyrevg[n]+s->revng[n]+s->cyrevgp[n]+s->revngp[n]+s->x00210[n]+s->x30200[n]+s->x40200[n]+s->x40210[n]+s->x40211[n]+s->x41200[n]+s->x41210[n]+s->x41211[n]+s->x42200[n]+s->x42210[n]+s->x42211[n]+s->x50200[n]+s->x50210[n]+s->x50211[n]+s->x51200[n]+s->x51210[n]+s->x51211[n]+s->x52200[n]+s->x52210[n]+s->x52211[n]+s->x60200[n]+s->x60210[n]+s->x60211[n]+s->x61200[n]+s->x61210[n]+s->x61211[n]+s->x62200[n]+s->x62210[n]+s->x62211[n]);
+		r->xtra[i+n] = s->V10[n];
 	}
 }
 
-void rhs_wrapper(double t, Mstate *s, Mstate *s_dot, Mparameters *p, Estate *x, double *input, int *upstream, int LIGHT) {
+void rhs_wrapper(double t, Mstate *s, Mstate *s_dot, Mparameters *p, Estate *x, mclock_t *input, int *upstream, int LIGHT) {
 	rhs <<< NBLOCKS, NTHREADS >>> (t, s, s_dot, p, x, input, upstream, LIGHT);
 }
 
-void lincomb_wrapper(double c, Mstate *s, Mstate *s1, Mstate *s2) {
+void lincomb_wrapper(mclock_t c, Mstate *s, Mstate *s1, Mstate *s2) {
 	lincomb <<< NBLOCKS, NTHREADS >>> (c, s, s1, s2);
 }
 
-void rk4_wrapper(Mstate *s, Mstate *k1, Mstate *k2, Mstate *k3, Mstate *k4, double t, double idx) {
+void rk4_wrapper(Mstate *s, Mstate *k1, Mstate *k2, Mstate *k3, Mstate *k4, double t, mclock_t idx) {
 	rk4 <<< NBLOCKS, NTHREADS >>> (s, k1, k2, k3, k4, t, idx);
 }
 

@@ -12,9 +12,13 @@
 		 reads in the parameters from file.
 */
 #include <stdio.h>
+#include <iostream>
+#include <limits>
+#include <fstream>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "scn.h"
 #include "df.h"
 #include "kim.h"
@@ -22,7 +26,7 @@
 #include "utils.h"
 #include <algorithm>
 
-void vec2Estate(double *vec, Estate *E, int n)
+void vec2Estate(ephys_t *vec, Estate *E, int n)
 {
 	E->V[n] = vec[0];
 	E->m[n] = vec[1];
@@ -39,7 +43,7 @@ void vec2Estate(double *vec, Estate *E, int n)
 	E->y[n] = vec[12];
 }
 
-void Estate2vec(Estate *E, int n, double *vec)
+void Estate2vec(Estate *E, int n, ephys_t *vec)
 {
 	vec[0] = E->V[n];
 	vec[1] = E->m[n];
@@ -56,7 +60,7 @@ void Estate2vec(Estate *E, int n, double *vec)
 	vec[12] = E->y[n];
 }
 
-void vec2Eparams(double *vec, Eparameters *p, int n)
+void vec2Eparams(ephys_t *vec, Eparameters *p, int n)
 {
 	p->c[n] = vec[0];
 	p->gna[n] = vec[1];
@@ -74,7 +78,7 @@ void vec2Eparams(double *vec, Eparameters *p, int n)
 	p->Egaba[n] = vec[13];
 }
 
-void Eparams2vec(Eparameters *p, int n, double *vec)
+void Eparams2vec(Eparameters *p, int n, ephys_t *vec)
 {
 	vec[0] = p->c[n];
 	vec[1] = p->gna[n];
@@ -94,22 +98,20 @@ void Eparams2vec(Eparameters *p, int n, double *vec)
 
 int Einitialize_repeat(Estate *E, const char *name)
 {
-	FILE *infile;
+	std::ifstream ifs(name);
 	int count = 0;
-	double buffer, input[Envars], init[Envars];
+	ephys_t buffer, input[Envars], init[Envars];
 
-        printf("Reading in E initial conditions to repeat from file %s\n", name);
-	infile = open_file(name, "r");
-	while ( (fscanf(infile, "%lf,", &buffer) != EOF) && (count < Envars) )
+        std::cout << "Reading in E initial conditions to repeat from file " << name << "\n";
+	while ( (ifs >> buffer) && (count < Envars) )
 	{
 		input[count] = buffer;
-//		printf("%lf\t",input[count]);
 		count++;
 	}
 
 	if (count < Envars)
 	{
-		printf("\nWARNING: default E initialization file contained only %d values but there are %d states. Remaining states have been initialized to zero.\n",count,Envars);
+		std::cout << "\nWARNING: default E initialization file contained only " << count << " values but there are " << Envars << " states. Remaining states have been initialized to zero.\n";
 		for (int i=count+1; i<Envars ;i++)
 			input[i]=0;
 	}
@@ -133,75 +135,72 @@ int Einitialize_repeat(Estate *E, const char *name)
 		vec2Estate(init,E,n);
 	}
 	
-	printf("\nSuccessfully set %d E initial conditions.\n", count);
+	std::cout << "\nSuccessfully set " << count << " E initial conditions.\n";
 			
-	fclose(infile);
+	ifs.close();
 
 	return 0;
 }
 
 int Einitialize(Estate *E, const char *name)
 {
-	FILE *infile;
+	std::ifstream ifs(name);
 	int count = 0;
-	double buffer, input[Envars];
+	ephys_t buffer, input[Envars];
 
-        printf("Reading in all E initial conditions from file %s\n", name);
-	infile = open_file(name, "r");
+        std::cout << "Reading in all E initial conditions from file " << name << "%s\n";
 	for(int n = 0; n < ncells; n++)
 	{
 		for(int i = 0; i < Envars; i++)
 		{
-			if(fscanf(infile, "%lf,", &buffer) != EOF)
+			if(ifs >> buffer)
 				count++;
 			input[i] = buffer;
 		}
 
-/*		if(ERANDOMINIT) // perturb initial conditions
+		if(ERANDOMINIT) // perturb initial conditions
 		{
 			for(int i=0; i < Envars; i++)
 				input[i] = randn(input[i], fabs(input[i]*EISD));
 		}
-*/
+
 		vec2Estate(input,E,n);
-//		printf("%d\t%lf\n",n,E->V[n]);
 	}
 	
 	if (count != Envars*ncells)
 	{
-		printf("\nEinit file did not contain the correct number of records (%d variables, %d cells)\n",Envars,ncells);
+		std::cout << "\nEinit file did not contain the correct number of records (" << Envars << " variables, " << ncells << " cells)\n";
 		return 1;
 	}
 	else 
-		printf("\nSuccessfully set E initial conditions.\n");
+		std::cout << "\nSuccessfully set E initial conditions.\n";
 
-	fclose(infile);
+	ifs.close();
 
 	return 0;
 }
 
 int Epinitialize_repeat(Eparameters *p, const char *name)
 {
-	FILE *infile;
+	std::ifstream ifs(name);
 	int count = 0;
-	double buffer, input[Enparams], init[Enparams];
+	ephys_t buffer, input[Enparams], init[Enparams];
 
-        printf("Reading in E parameters to repeat from file %s\n", name);
-	infile = open_file(name, "r");
-	while ( (fscanf(infile, "%lf,", &buffer) != EOF) && (count < Enparams) )
+	std::cout << "Reading in E parameters to repeat from file " << name << "\n";
+	while ( (ifs >> buffer) && (count < Enparams) )
 	{
 		input[count] = buffer;
-//		printf("%lf\t",input[count]);
 		count++;
 	}
 
 	if (count < Enparams)
 	{
-		printf("\nWARNING: E parameter file contained only %d values but there are %d parameters. Remaining parameters have been set to zero.\n",count,Enparams);
+		std::cout << "\nWARNING: E parameter file contained only " << count << " values but there are " << Enparams << " parameters. Remaining parameters have been set to zero.\n";
 		for (int i=count+1; i<Enparams ;i++)
 			input[i]=0;
 	}
 
+	srand (time(NULL));
 	for(int n = 0; n < ncells; n++)
 	{
 
@@ -215,64 +214,61 @@ int Epinitialize_repeat(Eparameters *p, const char *name)
 				if(EXCITEDIST == 1)
 				{
 					if( tmp*100.0 < (PERCENTEXCITE) )
-						input[i] = -32;
+						init[i] = -32;
 					else
-						input[i] = -80;
+						init[i] = -80;
 				}
 				else if(EXCITEDIST == 2)
 				{
 					if( tmp*100.0 > (100.0-PERCENTEXCITE) )
-						input[i] = -32;
+						init[i] = -32;
 					else
-						input[i] = -80;
+						init[i] = -80;
 				}
 				else
 				{
 					double rnum  = randu(0,1);
 					if( rnum < PERCENTEXCITE/100.0 )
-						input[i] = -32;
+						init[i] = -32;
 					else
-						input[i] = -80;
+						init[i] = -80;
 				}	
 			}
 			else
 				init[i] = input[i];
-//			printf("%lf\t",init[0]);
 		}
 
 		vec2Eparams(init,p,n);
 	}
 	
-	printf("\nSuccessfully set %d E parameters.\n", count);
+	std::cout << "\nSuccessfully set " << count << " E parameters.\n";
 			
-	fclose(infile);
+	ifs.close();
 
 	return 0;
 }
 
 int Epinitialize(Eparameters *p, const char *name)
 {
-	FILE *infile;
+	std::ifstream ifs(name);
 	int count = 0;
-	double buffer, input[Enparams];
+	ephys_t buffer, input[Enparams];
 
-        printf("Reading in all E parameters from file %s\n", name);
-	infile = open_file(name, "r");
+	std::cout << "Reading in all E parameters from file " << name << "\n";
 
 	for(int n = 0; n < ncells; n++)
 	{
 		for(int i = 0; i < Enparams; i++)
 		{
-			if(fscanf(infile, "%lf,", &buffer) != EOF)
+			if(ifs >> buffer)
 				count++;
-//			if(i == 1) // gna KO (TTX)
-			if(i == -1) // no KO
-				input[i] = 0;
-			else if( ERANDOMPARAMS & ( (i==10) | (i==12) ) ) // perturb Eca and clk
+			if( ERANDOMPARAMS & ( (i==10) | (i==12) ) ) // perturb Eca and clk
 				input[i] = randn(input[i], input[i]*EPSD);
+			else if( (i==13) & PERCENTEXCITE == 0)
+				input[i] = -80;
 			else if( (i==13) & PERCENTEXCITE > 0)
 			{
-				double tmp = ((double)n)/ncells;
+				ephys_t tmp = ((ephys_t)n)/ncells;
 				if(EXCITEDIST == 1)
 				{
 					if( tmp*100.0 < (PERCENTEXCITE) )
@@ -301,27 +297,25 @@ int Epinitialize(Eparameters *p, const char *name)
 		}
 
 		vec2Eparams(input,p,n);
-
-//		printf("%d\t%lf\n",n,E->Eca[n]);
 	}
 	
 	if (count != Enparams*ncells)
 	{
-		printf("\nEparameters file did not contain the correct number of records (%d variables, %d cells)\n",Enparams,ncells);
+		std::cout << "\nEparameters file did not contain the correct number of records (" << Enparams << " variables, " << ncells << " cells)\n";
 		return 1;
 	}
 	else 
-		printf("\nSuccessfully set E parameters.\n");
+		std::cout << "\nSuccessfully set E parameters.\n";
 
-	fclose(infile);
+	ifs.close();
 
 	return 0;
 }
 
-int write_Efinal(Estate *E, FILE *outfile)
+int write_Efinal(Estate *E, std::ofstream& outfile)
 {
-	double *output;
-	output = (double*)malloc(Envars*sizeof(double));
+	ephys_t *output;
+	output = (ephys_t*)malloc(Envars*sizeof(ephys_t));
 
 	for(int n = 0; n<ncells; n++)
 	{
@@ -329,9 +323,9 @@ int write_Efinal(Estate *E, FILE *outfile)
 
 		for(int i = 0; i<Envars; i++)
 		{
-			fprintf(outfile, "%.12lf,",output[i]);
+			outfile << output[i] << " ";
 		}
-		fprintf(outfile, "\n");
+		outfile << "\n";
 	}
 
 	return 0;
@@ -339,20 +333,16 @@ int write_Efinal(Estate *E, FILE *outfile)
 
 int write_Eparams(Eparameters *p, const char *name)
 {
-	FILE *pfile;
 	int i, j;
 	char pfilename[50];
   	sprintf(pfilename,"./Eparameters/%s",name);
 
-	pfile=fopen(pfilename, "w");
+	std::ofstream ofs(pfilename);
 
-	if (pfile == NULL)
-  	{
-    		perror ("The following error occurred");
+	if (ofs.fail())
 		return 1;
- 	}
 
-	double output[Enparams];
+	ephys_t output[Enparams];
 
 	for (int n=0; n < ncells; n++)
 	{
@@ -362,39 +352,41 @@ int write_Eparams(Eparameters *p, const char *name)
 		/* write the vector of parameters to the file */
 		for(i = 0; i < Enparams; i++)
 		{
-			fprintf(pfile, "%lf ", output[i]);
+			ofs << output[i] << " ";
 		}
-		fprintf(pfile,"\n");
+		ofs << "\n";
 
 	}
-	fclose(pfile);
+	ofs.close();
 	return 0;
 }
 
-int write_Eresult(double *output, FILE *outfile, int record, int Mt_step, int summary)
+int write_Eresult(ephys_t *output, std::ofstream& outfile, int record, int Mt_step, int summary)
 {
-	printf("Writing ephys record %d, mt_step = %d, summary = %d\n",record,Mt_step, summary);
+	std::cout << "Writing ephys record " << record << ", mt_step = " << Mt_step << ", summary = " << summary << "\n";
 	double curr_t = Mt_step*Mdt;
 	int maxt = Enstep/Erecord;
 	int Eres_len=ncells*(maxt+1);
 
+        outfile.precision(std::numeric_limits<double>::digits10 + 2);
+
 	if (summary)
 	{
 		int i = maxt;
-		fprintf(outfile, "%.12lf", curr_t+i*Edt*Erecord/3600000.0);
+		outfile << curr_t+(double)i*Edt*Erecord/3600000.0;
 		for (int j=0; j<ncells; j++) {
-			fprintf(outfile, "\t%.12lf", output[record*Eres_len+j+i*ncells]);
+			outfile << " " << output[record*Eres_len+j+i*ncells];
 		}
-		fprintf(outfile, "\n");
+		outfile << "\n";
 	}
 	else
 	{
 		for (int i=0; i<(maxt+1); i++) {
-			fprintf(outfile, "%.12lf", curr_t+i*Edt*Erecord/3600000.0);
+			outfile << curr_t+(double)i*Edt*Erecord/3600000.0;
 			for (int j=0; j<ncells; j++) {
-				fprintf(outfile, "\t%.12lf", output[record*Eres_len+j+i*ncells]);
+				outfile << " " << output[record*Eres_len+j+i*ncells];
 			}
-			fprintf(outfile, "\n");
+			outfile << "\n";
 		}
 	}
 	return 0;

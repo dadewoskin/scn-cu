@@ -18,25 +18,15 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, ephy
 	a=1.0/Edt+1.0/(2.0*ts);
 	ephys_t minf, hinf, ninf, rlinf, rnlinf, fnlinf, sinfi, sinff;
 	ephys_t taum, tauh, taun, taufnl, tausi, tausf;
+	ephys_t alpham, alphah, alphan, alpharl, alpharnl, alphafnl;
+	ephys_t betam, betah, betan, betarl, betarnl, betafnl;
 	ephys_t ya, yb;
+	ephys_t Isyn;
 
 	for (j=tid; j<ncells; j+=stride) {
+		Isyn = 0.0;
 
-		if (KO == 10)
-			if (j < 615) // DV separated on 12/18/2015
-//				R = p->clk[j]*11.36*(M->G[j]-0.2); //added 12/19/2015 - Ventral R1
-//				R = p->clk[j]*14.20*(M->G[j]-0.2); //added 12/20/2015 - Ventral R2
-				R = p->clk[j]*17.04*(M->G[j]-0.185); //added 12/20/2015 - Ventral R3
-			else
-//				R = p->clk[j]*17.04*(M->G[j]-0.165); //added 12/19/2015 - Dorsal R1
-//				R = p->clk[j]*14.20*(M->G[j]-0.155); //added 12/20/2015 - Dorsal R2
-				R = p->clk[j]*14.20*(M->G[j]-0.145); //added 12/28/2015 - Dorsal R3
-//			R = p->clk[j]*11.36*(M->G[j]-0.165); //added 11/23/2015
-//			R = p->clk[j]*17.04*(M->G[j]-0.165); //added 12/12/2015
-		else
-			R = p->clk[j]*8.52*(M->G[j]-0.25); //changed in 12/2015 for WT in Afh sims
-//			R = p->clk[j]*5.68*(M->G[j]-0.25); //changed in 12/2015 for WT in Afh sims
-	//		R = p->clk[j]*11.36*(M->G[j]-0.25); //changed in ~2/2014? = R2
+		R = p->clk[j]*11.36*(M->G[j]-0.25); //changed in ~2/2014? = R2
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -64,22 +54,40 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, ephy
 		taufnl = exp(-(xi->V[j]-444.0)/220.0);
 
 		sinfi = 1e7*pow(xi->cas[j],2)/(1e7*pow(xi->cas[j],2)+5.6);
+		sinff = 1e7*pow(xf->cas[j],2)/(1e7*pow(xf->cas[j],2)+5.6);
 		tausi = 500.0/(1e7*pow(xi->cas[j],2)+5.6);
+		tausf = 500.0/(1e7*pow(xf->cas[j],2)+5.6);
 
-//		ya = 5.0*(t);
-//		yb = 5.0*(t)+0.18; 
 //		ya = 5.0*(input[j]/upstream[j]);
 //		yb = 5.0*(input[j]/upstream[j])+0.18; 
-		ya = 5.0*(input[j]/10.0);
-		yb = 5.0*(input[j]/10.0)+0.18; 
+		ya = 5.0*(input[j]/100.0);
+		yb = 5.0*(input[j]/100.0)+0.18; 
 
 		//Update gating variables
-		xf->m[j] = 2.0*Edt/(2.0*taum+Edt)*minf+(2.0*taum-Edt)/(2.0*taum+Edt)*xi->m[j];
-		xf->h[j] = 2.0*Edt/(2.0*tauh+Edt)*hinf+(2.0*tauh-Edt)/(2.0*tauh+Edt)*xi->h[j];
-		xf->n[j] = 2.0*Edt/(2.0*taun+Edt)*ninf+(2.0*taun-Edt)/(2.0*taun+Edt)*xi->n[j];
-		xf->rl[j] = 2.0*Edt/(2.0*taurl+Edt)*rlinf+(2.0*taurl-Edt)/(2.0*taurl+Edt)*xi->rl[j];
-		xf->rnl[j] = 2.0*Edt/(2.0*taurnl+Edt)*rnlinf+(2.0*taurnl-Edt)/(2.0*taurnl+Edt)*xi->rnl[j];
-		xf->fnl[j] = 2.0*Edt/(2.0*taufnl+Edt)*fnlinf+(2.0*taufnl-Edt)/(2.0*taufnl+Edt)*xi->fnl[j];
+	//	xf->m[j] = 2.0*Edt/(2.0*taum+Edt)*minf+(2.0*taum-Edt)/(2.0*taum+Edt)*xi->m[j];
+	//	xf->h[j] = 2.0*Edt/(2.0*tauh+Edt)*hinf+(2.0*tauh-Edt)/(2.0*tauh+Edt)*xi->h[j];
+	//	xf->n[j] = 2.0*Edt/(2.0*taun+Edt)*ninf+(2.0*taun-Edt)/(2.0*taun+Edt)*xi->n[j];
+	//	xf->rl[j] = 2.0*Edt/(2.0*taurl+Edt)*rlinf+(2.0*taurl-Edt)/(2.0*taurl+Edt)*xi->rl[j];
+	//	xf->rnl[j] = 2.0*Edt/(2.0*taurnl+Edt)*rnlinf+(2.0*taurnl-Edt)/(2.0*taurnl+Edt)*xi->rnl[j];
+	//	xf->fnl[j] = 2.0*Edt/(2.0*taufnl+Edt)*fnlinf+(2.0*taufnl-Edt)/(2.0*taufnl+Edt)*xi->fnl[j];
+		alpham=minf/taum;
+		betam=1.0/taum;
+		alphah=hinf/tauh;
+		betah=1.0/tauh;
+		alphan=ninf/taun;
+		betan=1.0/taun;
+		alpharl=rlinf/taurl;
+		betarl=1.0/taurl;
+		alpharnl=rnlinf/taurnl;
+		betarnl=1.0/taurnl;
+		alphafnl=fnlinf/taufnl;
+		betafnl=1.0/taufnl;
+		xf->m[j] = alpham/betam+(xi->m[j]-alpham/betam)*exp(-betam*Edt);
+		xf->h[j] = alphah/betah+(xi->h[j]-alphah/betah)*exp(-betah*Edt);
+		xf->n[j] = alphan/betan+(xi->n[j]-alphan/betan)*exp(-betan*Edt);
+		xf->rl[j] = alpharl/betarl+(xi->rl[j]-alpharl/betarl)*exp(-betarl*Edt);
+		xf->rnl[j] = alpharnl/betarnl+(xi->rnl[j]-alpharnl/betarnl)*exp(-betarnl*Edt);
+		xf->fnl[j] = alphafnl/betafnl+(xi->fnl[j]-alphafnl/betafnl)*exp(-betafnl*Edt);
 	        
 		//solve quadratic equation for cas (a is constant)
 		b=(K2-xi->cas[j])/Edt+ks/2.0*p->gcanl[j]*xf->rnl[j]*xf->fnl[j]*(xi->V[j]-p->Eca[j])+(K2+xi->cas[j])/(2.0*ts)-bs+ks/2.0*(p->gcal[j]*xi->rl[j]*K1/(K2+xi->cas[j])*(xi->V[j]-p->Eca[j])+p->gcanl[j]*xi->rnl[j]*xi->fnl[j]*(xi->V[j]-p->Eca[j]));
@@ -87,8 +95,6 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, ephy
         
 		//Update cas before s and cac (same time step, but s and cac depend on current cas)
 		xf->cas[j]=(-b+sqrt(pow(b,2)-4.0*a*c))/(2.0*a);
-		sinff = 1e7*pow(xf->cas[j],2)/(1e7*pow(xf->cas[j],2)+5.6);
-		tausf = 500.0/(1e7*pow(xf->cas[j],2)+5.6);
 		xf->s[j]=1.0/(1.0+Edt/(2.0*tausf))*(xi->s[j]*(1.0-Edt/(2.0*tausi))+Edt/2.0*(sinfi/tausi+sinff/tausf));
         
 		xf->cac[j]=1.0/(1.0+Edt/(2.0*tc))*(xi->cac[j]*(1.0-Edt/(2.0*tc))+bc*Edt-Edt*kc/2.0*( p->gcal[j]*xf->rl[j]*(K1/(K2+xf->cas[j]))*(xi->V[j]-p->Eca[j])+p->gcanl[j]*xf->rnl[j]*xf->fnl[j]*(xi->V[j]-p->Eca[j])+p->gcal[j]*xi->rl[j]*(K1/(K2+xi->cas[j]))*(xi->V[j]-p->Eca[j])+p->gcanl[j]*xi->rnl[j]*xi->fnl[j]*(xi->V[j]-p->Eca[j])));
@@ -101,7 +107,7 @@ __global__ void leapfrog(Estate *xi, Estate *xf, Eparameters *p, Mstate *M, ephy
 		E = p->Ena[j]*(p->gna[j]*pow(xf->m[j],3)*xf->h[j]+gnaleak)+p->Ek[j]*(p->gk[j]*pow(xf->n[j],4)+gkca*pow(xf->s[j],2)+gkleak)+p->Eca[j]*(p->gcal[j]*xf->rl[j]*(K1/(K2+xf->cas[j]))+p->gcanl[j]*xf->rnl[j]*xf->fnl[j])+p->Egaba[j]*gsyn*xf->y[j];
 
 		//Update voltage
-		xf->V[j] = 1.0/(p->c[j]+Edt/2.0*G)*(Edt*(Iapp+E)+(p->c[j]-Edt/2.0*G)*xi->V[j]);
+		xf->V[j] = 1.0/(p->c[j]+Edt/2.0*G)*(Edt*(Isyn+Iapp+E)+(p->c[j]-Edt/2.0*G)*xi->V[j]);
 
 		//Update post-synaptic current out of this cell
 		xf->out[j] = gsyn*xf->y[j]*(p->Egaba[j]-xf->V[j]); // not really ouput; this is the gaba current the cell experiences
@@ -117,11 +123,6 @@ __global__ void leapfrog_copy(int i, int res_len, ephys_t *result, Estate *xi, E
 	int tid = blockIdx.x * blockDim.x + threadIdx.x;
 	int stride = NTHREADS * NBLOCKS;
 	for (j=tid; j<ncells; j+=stride) {
-		result[i+j] = xi->V[j]+200*VMAXMIN;
-		result[res_len+i+j] = xf->cac[j]; // cytosolic calcium
-//		result[2*res_len+i+j] = xf->gaba[j]; // gaba output from each cell
-		result[2*res_len+i+j] = xf->out[j]; // output current from each cell
-
 		xi->V[j] = xf->V[j];
 		xi->m[j] = xf->m[j];
 		xi->h[j] = xf->h[j];
@@ -135,6 +136,10 @@ __global__ void leapfrog_copy(int i, int res_len, ephys_t *result, Estate *xi, E
 		xi->out[j] = xf->out[j];
 		xi->gaba[j] = xf->gaba[j];
 		xi->y[j] = xf->y[j];
+		result[i+j] = xf->V[j]+200*VMAXMIN;
+		result[res_len+i+j] = xf->cac[j]; // cytosolic calcium
+//		result[2*res_len+i+j] = xf->gaba[j]; // gaba output from each cell
+		result[2*res_len+i+j] = xf->out[j]; // output current from each cell
 	}
 }
 
